@@ -6,12 +6,21 @@ To setup the development environment, we use [Vagrant](https://www.vagrantup.com
 
 The Vagrantfile installs all of the needed software to run the service. You can clone this github repository and follow the given commands to start running the service:
  
-```shell
+```bash
 git clone https://github.com/products-devops-fall-21/products.git  
 cd products     
-vagrant up
-vagrant ssh
+
+#bring up the vm
+vagrant up 
+
+#open a shell inside the vm
+vagrant ssh 
+
 cd /vagrant
-exit
-vagrant halt
+
+#exit out of the vm shell back to your host computer
+exit 
+
+#shutdown the vm to return later with vagrant up
+vagrant halt 
 ```
