@@ -1,6 +1,6 @@
 # products
 
-# Setting up the development environment
+### Setting up the development environment
 Install [Git](http://git-scm.com/downloads) for using bash commands.
 To setup the development environment, we use [Vagrant](https://www.vagrantup.com/downloads) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads). The recommended code editor is [Visual Studio Code](https://code.visualstudio.com/).
 
@@ -18,9 +18,19 @@ vagrant ssh
 
 cd /vagrant
 
+cd /model
+
+vagrant ssh
+
+python products.py
+
+
 #exit out of the vm shell back to your host computer
 exit 
 
 #shutdown the vm to return later with vagrant up
 vagrant halt 
 ```
+
+
+search [127.0.0.1:5000](http://127.0.0.1:5000/) on browser
