@@ -15,19 +15,17 @@ class ProductModel(db.Model):
     name = db.Column(db.String(250), nullable=False)
     description = db.Column(db.String(250))
     creation_date = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), nullable=False)
-    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.id', ondelete='CASCADE'), nullable=False)
-    restaurant = db.relationship('RestaurantModel', backref=db.backref('foods', lazy='dynamic' ))
-    menu_id = db.Column(db.Integer, db.ForeignKey('menus.id', ondelete='CASCADE'), nullable=False)
+    price = db.Column(db.Float, nullable = False)
 
-    def __init__(self, name, description, restaurant_id, menu_id):
+    def __init__(self, name, description, creation_date, price):
         self.name = name
         self.description = description
-        self.restaurant_id = restaurant_id
-        self.menu_id = menu_id
+        self.creation_date = creation_date
+        self.price = price
 
 class ProductSchema(ma.Schema):
     id = fields.Integer(dump_only=True)
-    restaurant_id = fields.Integer(required=True)
     name = fields.String(required=True, validate=validate.Length(1))
     description = fields.String()
     creation_date = fields.DateTime()
+    price = fields.Float()
