@@ -20,7 +20,6 @@ cd /vagrant
 
 cd /model
 
-vagrant ssh
 
 python products.py
 
