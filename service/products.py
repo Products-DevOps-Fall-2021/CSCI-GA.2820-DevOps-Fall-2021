@@ -1,31 +1,35 @@
 from flask import Flask, render_template
 from service.models import ProductModel
-from service.start import app
+from . import app
 
 class ProductService():
 
-    def index_page(self):
+    def index_page():
         products = ProductModel.query.order_by(ProductModel.creation_date).all()
         print("sumit")
         return products
 
-    def create_product(self, product_name, product_price):
-        new_product = ProductModel(content = product_name, price = product_price)
+    
+    def create_product(product_name, product_price):
+        new_product = ProductModel(name = product_name, price = product_price)
+        print("after new_product")
         try:
             ProductModel.save_to_db(new_product)
             return True   
         except Exception :
             return False
 
-    def delete_product(self , id):
+    def delete_product( id):
         product_to_delete = ProductModel.find_by_id(id)
+        print("find deleted_product")
         try:
             ProductModel.delete_from_db(product_to_delete)
+            print(" deleted")
             return True
         except Exception:
             return False
 
-    def update_product(self, id, name , price):
+    def update_product(id, name , price):
         product_to_update = ProductModel.find_by_id(id)
         try:
             product_to_update.name = name
@@ -35,6 +39,4 @@ class ProductService():
         except Exception:
             return False
     
-def init_db():
-    global app
-    ProductModel.init_db(app)
+
