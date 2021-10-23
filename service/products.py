@@ -8,6 +8,7 @@ class ProductService():
 
     def index_page(self):
         products = ProductModel.query.order_by(ProductModel.creation_date).all()
+        print("sumit")
         return products
 
     def create_product(self, product_name, product_price):

@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for
 from flask.globals import request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from app import db
+from . import db
 
 # from werkzeug.utils import redirect
 # app = Flask(__name__)

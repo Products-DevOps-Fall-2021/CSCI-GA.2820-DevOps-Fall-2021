@@ -1,11 +1,9 @@
 import os
 from flask import Flask, render_template, url_for
-from models import ProductModel
 from werkzeug.utils import redirect
 from flask.globals import request
-import app
-
-from products import ProductService
+from service.products import ProductService
+from service import app
 
 @app.route("/",  methods=['GET'])
 def index():
