@@ -8,7 +8,7 @@ from . import db
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db' #test.db = our database
 # db = SQLAlchemy(app)
 
-
+#sumit mamtani
 class ProductModel(db.Model):
     __tablename__ = 'products'
     app = None
