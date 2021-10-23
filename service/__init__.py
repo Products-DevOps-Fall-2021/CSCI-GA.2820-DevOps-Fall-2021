@@ -71,8 +71,8 @@ def create():
     return "Issue adding product"
 
 
-@app.route('/delete/<int:id>', methods=["DELETE"])
-def delete(id):
+@app.route('/delete/<int:id>', methods=["POST"])
+def delete(id=1):
     app.logger.info("Request to delete product...")
     output = ProductService.delete_product(id)
     if output == True:
@@ -80,9 +80,10 @@ def delete(id):
     return 'There was a problem deleting the product'
 
 
-@app.route('/update/<int:id>', methods=["PUT"])
+@app.route('/update/<int:id>', methods=["POST"])
 def update(id):
     app.logger.info("Request to update product...")
+    print("Request to update product...")
     name = request.form['name']
     price = request.form['price']
     output = ProductService.update_product(id,name, price)
