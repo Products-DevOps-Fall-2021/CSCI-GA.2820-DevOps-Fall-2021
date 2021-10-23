@@ -24,13 +24,13 @@
                 <td>{{product.creation_date.date()}}</td>
                 
                 <td>
-                    <a href="/delete/{{product.id}}">Delete</a>
-                    <!-- Add to cart option must change to remove
-                        cart after being clicked
+                    <form action="/delete/{{product.id}}" method="DELETE">
+                        <input type="submit" value="DELETE">
+                    </form>
                     <br>
-                    <a href="">Remove from cart</a>-->
-                    <br>
-                    <a href="/update/{{product.id}}">Update</a>
+                    <form action="/update/{{product.id}}" method="PUT">
+                        <input type="submit" value="UPDATE">
+                    </form>
                 </td>
             </tr>
         {% endfor %}
