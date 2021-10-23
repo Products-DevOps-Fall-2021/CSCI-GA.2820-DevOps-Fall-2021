@@ -55,10 +55,10 @@ class ProductModel(db.Model):
     def find_by_id(cls,id):
         return cls.query.filter_by(id=id).first()
 
-    @staticmethod
-    def all():
-        ProductModel.logger.info('Processing all Products')
-        return ProductModel.query.all()
+    # @staticmethod
+    # def all():
+    #     ProductModel.logger.info('Processing all Products')
+    #     return ProductModel.query.all()
 
 
 

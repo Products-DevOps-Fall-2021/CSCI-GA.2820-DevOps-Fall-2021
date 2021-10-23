@@ -19,7 +19,7 @@
         </tr>
         {% for product in products %}
             <tr>
-                <td>{{product.content}}</td>
+                <td>{{product.name}}</td>
                 <td>{{product.price}}</td>
                 <td>{{product.creation_date.date()}}</td>
                 
@@ -36,7 +36,7 @@
         {% endfor %}
     </table>
     {% endif %}
-    <form action="/" method="POST">
+    <form action="/products" method="POST">
         <!--<input type="text" name="content" id = "content">
         <input type="submit" value="Add Products">-->
         <input type="text" name="content" id = "content">

@@ -1,21 +1,22 @@
 import os
 from flask import Flask, render_template, url_for
-from models.products import ProductModel
-from service import app
+from models import ProductModel
 from werkzeug.utils import redirect
 from flask.globals import request
+import app
 
-from service.productservice import ProductService
+from products import ProductService
 
-@app.route("/")
+@app.route("/",  methods=['GET'])
 def index():
     products = ProductService.index_page()
+    print("sumit")
     return render_template('index.html', products = products)
 
-@app.route("/products", methods=["GET"])
-def list_products():
-    app.logger.info("Request to list products...") 
-    return {}
+# @app.route("/products", methods=["GET"])
+# def list_products():
+#     app.logger.info("Request to list products...") 
+#     return {}
 
 
 @app.route("/products", methods=["POST"])
