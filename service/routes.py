@@ -35,6 +35,7 @@ def create():
 
 @app.route('/delete/<int:id>', methods=["DELETE"])
 def delete(id):
+    print("delete"+id)
     app.logger.info("Request to delete product...")
     output = ProductService.delete_product(id)
     if output == True:

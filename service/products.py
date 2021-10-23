@@ -11,7 +11,7 @@ class ProductService():
 
     
     def create_product(product_name, product_price):
-        new_product = ProductModel(pname = product_name, pprice = product_price)
+        new_product = ProductModel(name = product_name, price = product_price)
         print("after new_product")
         try:
             ProductModel.save_to_db(new_product)
@@ -21,8 +21,10 @@ class ProductService():
 
     def delete_product( id):
         product_to_delete = ProductModel.find_by_id(id)
+        print("find deleted_product")
         try:
             ProductModel.delete_from_db(product_to_delete)
+            print(" deleted")
             return True
         except Exception:
             return False

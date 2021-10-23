@@ -9,10 +9,10 @@
     <h1 style="text-align: center">Update Product</h1>
     
     
-    <form action="/update/{{product.id}}" method="POST">
+    <form action="/update/{{product.id}}" method="PUT">
         <!--<input type="text" name="content" id = "content">
         <input type="submit" value="Add Products">-->
-        <input type="text" name="content" id = "content" value="{{product.content}}">
+        <input type="text" name="name" id = "name" value="{{product.name}}">
         <input type="number" step="0.01" name="price">
         <input type="submit" value="Update Product">
     </form>

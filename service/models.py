@@ -15,11 +15,6 @@ class ProductModel(db.Model):
     creation_date = db.Column(db.DateTime, default=datetime.utcnow)#, nullable=False)
     price = db.Column(db.Float, nullable = False)
 
-    def __init__(self,pname, pprice):
-        self.name = pname
-        #self.description = pdescription
-        self.price = pprice
-        self.creation_date = str(datetime.now())
 
     def __repr__(self):
         return '<Task %r>' %self.id
@@ -34,11 +29,13 @@ class ProductModel(db.Model):
     def save_to_db(new_product):
         print("enter to save to db")
         db.session.add(new_product)
+        print("added not commited")
         db.session.commit()
+        print(" commited")
 
 
-    def delete_from_db(self):
-        db.session.delete(self)
+    def delete_from_db(request_id):
+        db.session.delete(request_id)
         db.session.commit()
 
     @classmethod        
