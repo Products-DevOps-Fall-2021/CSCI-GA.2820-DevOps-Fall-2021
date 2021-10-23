@@ -1,6 +1,6 @@
 
 from flask import Flask, render_template
-from models.products import ProductModel
+from models import ProductModel
 
 
 

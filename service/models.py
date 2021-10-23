@@ -26,10 +26,8 @@ class ProductModel(db.Model):
         self.price = pprice
         self.creation_date = str(datetime.now())
 
-    
-
-    # def __repr__(self):
-    #     return '<Task %r>' %self.id
+    def __repr__(self):
+        return '<Task %r>' %self.id
 
 # with app.app_context():
 #     db.create_all()
