@@ -5,24 +5,32 @@ from flask.globals import request
 from service.products import ProductService
 from service import app
 
+#root Home page
 @app.route("/",  methods=['GET'])
 def index():
     products = ProductService.index_page()
     return render_template('index.html', products = products)
 
 # @app.route("/products", methods=["GET"])
-# def list_products():
-#     app.logger.info("Request to list products...") 
-#     return {}
+# def list_all_products(): 
+#     app.logger.info("Request to list all products") 
+#     products = ProductService.get_all_products()
+#     return products
+
+# @app.route("/products/<int:id>", methods=["GET"])
+# def list_product(id):
+#     app.logger.info("Request to list a product with a given id") 
+#     product= ProductService.find_product_by_id(id)
+#     return product
 
 
 @app.route("/products", methods=["POST"])
 def create():
     app.logger.info("Request to Create product...")
-
     product_name = request.form['name']
     product_price = request.form['price']
-    output = ProductService.create_product(product_name, product_price)
+    description = request.form['description']
+    output = ProductService.create_product(product_name, product_price, description)
     if output == True:
         return  redirect('/')
 
@@ -40,26 +48,15 @@ def delete(id):
 
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
-    product = ProductService.find_product_by_id(id)
     if request.method=='POST':
         name = request.form['name']
         price = request.form['price']
-        output = ProductService.update_product(id,name, price)
-        if output == True:
-            return redirect('/')
+        description = request.form['description']
+        output = ProductService.update_product(id,name, price, description)
+        if output == False:
+            return 'Issue in updating product' 
         else :
-            return 'Issue updating product'   
+            return redirect('/')
     else:
+        product = ProductService.find_product_by_id(id)
         return render_template('update.html', product=product)
-
-    # print( id)
-    # app.logger.info("Request to update product...")
-    # print("Request to update product...")
-    # name = request.form['name']
-    # price = request.form['price']
-    # print(name)
-    # output = ProductService.update_product(id,name, price)
-    # if output == True:
-    #     return redirect('/')
-    # else:
-    #     return 'Issue updating product' 
