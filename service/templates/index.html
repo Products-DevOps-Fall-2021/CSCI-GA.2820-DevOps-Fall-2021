@@ -19,16 +19,14 @@
         </tr>
         {% for product in products %}
             <tr>
-                <td>{{product.content}}</td>
+                <td>{{product.name}}</td>
                 <td>{{product.price}}</td>
                 <td>{{product.creation_date.date()}}</td>
                 
                 <td>
-                    <a href="/delete/{{product.id}}">Delete</a>
-                    <!-- Add to cart option must change to remove
-                        cart after being clicked
-                    <br>
-                    <a href="">Remove from cart</a>-->
+                    <form action="/delete/{{product.id}}" method="POST">
+                        <input type="submit" value="DELETE">
+                    </form>
                     <br>
                     <a href="/update/{{product.id}}">Update</a>
                 </td>
@@ -36,10 +34,10 @@
         {% endfor %}
     </table>
     {% endif %}
-    <form action="/" method="POST">
+    <form action="/products" method="POST">
         <!--<input type="text" name="content" id = "content">
         <input type="submit" value="Add Products">-->
-        <input type="text" name="content" id = "content">
+        <input type="text" name="name" id = "name">
         <input type="number" step="0.01" name="price">
         <input type="submit" value="Add Product">
     </form>
