@@ -18,10 +18,9 @@ vagrant ssh
 
 cd /vagrant
 
-cd /model
+cd service
 
-
-python products.py
+python run.py
 
 
 #exit out of the vm shell back to your host computer
