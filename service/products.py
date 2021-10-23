@@ -39,4 +39,5 @@ class ProductService():
         except Exception:
             return False
     
-
+    def find_product_by_id(id):
+        return ProductModel.find_by_id(id);
