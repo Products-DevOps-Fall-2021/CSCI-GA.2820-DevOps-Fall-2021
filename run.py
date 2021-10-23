@@ -2,15 +2,8 @@ import os
 from service.start import app
 from service.products import init_db
 
-# Pull options from environment
 DEBUG = (os.getenv('DEBUG', 'False') == 'True')
 PORT = os.getenv('PORT', '5000')
-
-# if __name__ == "__main__":
-#     print("Sumit")
-#     app.run(host='0.0.0.0', port=int(PORT), debug=DEBUG)
-
-
 
 if __name__ == "__main__":
     print("**********************************************")
