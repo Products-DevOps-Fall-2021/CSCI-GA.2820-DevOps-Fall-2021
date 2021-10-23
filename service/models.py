@@ -3,12 +3,7 @@ from flask.globals import request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from service.start import db
-# from werkzeug.utils import redirect
-# app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db' #test.db = our database
-# db = SQLAlchemy(app)
 
-#sumit mamtani
 class ProductModel(db.Model):
     __tablename__ = 'products'
     app = None
@@ -28,14 +23,8 @@ class ProductModel(db.Model):
     def __repr__(self):
         return '<Task %r>' %self.id
 
-# with app.app_context():
-#     db.create_all()
-
-# @app.route('/', methods=['POST', 'GET'])
-
     @staticmethod
     def init_db(app):
-        # ProductModel.logger.info('Initializing database')
         ProductModel.app = app
         db.init_app(app)
         app.app_context().push()
@@ -58,59 +47,3 @@ class ProductModel(db.Model):
     @classmethod        
     def find_by_id(cls,id):
         return cls.query.filter_by(id=id).first()
-
-    # @staticmethod
-    # def all():
-    #     ProductModel.logger.info('Processing all Products')
-    #     return ProductModel.query.all()
-
-
-
-
-# def index():
-#     if request.method=="POST":
-        
-#         product_name = request.form['content']
-#         product_price = request.form['price']
-#         new_product = Specification(content = product_name, price = product_price)
-
-#         try:
-#             db.session.add(new_product)
-#             db.session.commit()
-#             return redirect('/')
-#         except:
-#             return 'Issue adding product'
-    
-#     else:
-#         products = Specification.query.order_by(Specification.creation_date).all()
-#         return render_template('index.html', products = products)
-
-# @app.route('/delete/<int:id>')
-
-# def delete(id):
-#     product_to_delete = Specification.query.get_or_404(id)
-
-#     try:
-#         db.session.delete(product_to_delete)
-#         db.session.commit()
-#         return redirect('/')
-#     except:
-#         return 'There wwas a problem deleting the product'
-
-# @app.route('/update/<int:id>', methods=['GET', 'POST'])
-# def update(id):
-#     product = Specification.query.get_or_404(id)
-#     if request.method=='POST':
-#         product.content = request.form['content']
-#         product.price = request.form['price']
-
-#         try:
-#             db.session.commit()
-#             return redirect('/')
-#         except:
-#             return 'Issue updating product'
-#     else:
-#         return render_template('update.html', product=product)
-
-# if __name__=="__main__":
-#     app.run(host='0.0.0.0', debug=True)
