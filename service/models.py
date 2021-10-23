@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for
 from flask.globals import request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from . import db
+from service.start import db
 # from werkzeug.utils import redirect
 # app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db' #test.db = our database
@@ -35,7 +35,7 @@ class ProductModel(db.Model):
 
     @staticmethod
     def init_db(app):
-        ProductModel.logger.info('Initializing database')
+        # ProductModel.logger.info('Initializing database')
         ProductModel.app = app
         db.init_app(app)
         app.app_context().push()

@@ -1,6 +1,6 @@
 from flask import Flask, render_template
-from models import ProductModel
-from . import app
+from service.models import ProductModel
+from service.start import app
 
 class ProductService():
 

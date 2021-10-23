@@ -3,7 +3,7 @@ from flask import Flask, render_template, url_for
 from werkzeug.utils import redirect
 from flask.globals import request
 from service.products import ProductService
-from . import app
+from service.start import app
 
 @app.route("/",  methods=['GET'])
 def index():
