@@ -3,16 +3,15 @@ from flask.globals import request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from . import db
-
 # from werkzeug.utils import redirect
 # app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db' #test.db = our database
 # db = SQLAlchemy(app)
 
 
-
 class ProductModel(db.Model):
     __tablename__ = 'products'
+    app = None
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(80), nullable=False)
@@ -34,6 +33,13 @@ class ProductModel(db.Model):
 
 # @app.route('/', methods=['POST', 'GET'])
 
+    @staticmethod
+    def init_db(app):
+        ProductModel.logger.info('Initializing database')
+        ProductModel.app = app
+        db.init_app(app)
+        app.app_context().push()
+        db.create_all()  
 
     def save_to_db(self):
         db.session.add(self)

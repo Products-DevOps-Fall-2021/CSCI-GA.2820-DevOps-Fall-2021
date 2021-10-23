@@ -1,8 +1,6 @@
-
 from flask import Flask, render_template
 from models import ProductModel
-
-
+from . import app
 
 class ProductService():
 
@@ -36,3 +34,7 @@ class ProductService():
             return True
         except Exception:
             return False
+    
+def init_db():
+    global app
+    ProductModel.init_db(app)
