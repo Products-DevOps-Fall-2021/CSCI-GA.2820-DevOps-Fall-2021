@@ -12,6 +12,7 @@
     {%else%}
     <table>
         <tr>
+            <th>ID</th>
             <th>Name</th>
             <th>Price</th>
             <th>Added</th>
@@ -20,6 +21,7 @@
         </tr>
         {% for product in products %}
             <tr>
+                <td>{{product.id}}</td>
                 <td>{{product.name}}</td>
                 <td>{{product.price}}</td>
                 <td>{{product.creation_date.date()}}</td>
@@ -38,7 +40,7 @@
     <form action="/products" method="POST">
         <input type="text" name="name" id = "name">
         <input type="number" step="0.01" name="price">
-        <input type="text" name="description" id = "description">
+        <input type="text" name="description">
         <input type="submit" value="Add Product">
     </form>
 </div>
