@@ -6,11 +6,9 @@ from sqlalchemy.exc import InvalidRequestError
 
 db = SQLAlchemy()
 
-
 class DataValidationError(Exception):
     """ Used for an data validation errors when deserializing """
     pass
-
 class ProductModel(db.Model):
     app = None
     id = db.Column(db.Integer, primary_key=True)
@@ -49,14 +47,15 @@ class ProductModel(db.Model):
 
     @classmethod        
     def find_by_name(cls,name):
-        return cls.query.filter_by(name=name).first()
+        product = cls.query.filter_by(name=name).first()
+        return product
+        
     
     @classmethod        
     def find_by_id(cls,id):
         return cls.query.filter_by(id=id).first()
 
     def serialize(self):
-        """ Serializes a Product into a dictionary """
         return {
             "id": self.id, 
             "name": self.name,
@@ -66,11 +65,6 @@ class ProductModel(db.Model):
         }
 
     def deserialize(self, data):
-        """
-        Deserialize a Product from a dictionary
-        Args:
-            data (dict): A dictionary containing the resource data
-        """
         self.name = data["name"]
         self.description = data["description"]
         self.price = data["price"]
