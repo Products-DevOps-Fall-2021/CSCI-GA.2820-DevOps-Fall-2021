@@ -17,7 +17,6 @@ def index():
 def list_all_products(): 
     app.logger.info("Request to list all products") 
     products = ProductService.get_all_products()
-    print(products)
     return products
 
 @app.route("/products/<int:id>", methods=["GET"])

@@ -4,8 +4,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import service.models as models
 
-
-print("START APP")
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db' #test.db = our database
 try:
@@ -30,8 +28,6 @@ app.logger.info('Logging established')
 app.logger.info("**********************************************")
 app.logger.info(" P R O D U C T   S E R V I C E   R U N N I N G")
 app.logger.info("**********************************************")
-
-
 
 from service import routes
 
