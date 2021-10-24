@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from service.models import ProductModel
+from service.error_handler import not_found, request_validation_error
 from . import app
-
 class ProductService():
 
     def index_page():
@@ -9,7 +9,9 @@ class ProductService():
         return products
 
     def get_all_products():
-        return ProductModel.get_products()
+        products = ProductModel.get_products()
+        results = [product.serialize() for product in products]
+        return results
     
     def create_product(product_name, product_price, pdescription):
         new_product = ProductModel(name = product_name, price = product_price, description = pdescription)
@@ -30,13 +32,18 @@ class ProductService():
     def update_product(id, name , price, description):
         product_to_update = ProductModel.find_by_id(id)
         try:
-            product_to_update.name = name
-            product_to_update.price = price
-            product_to_update.description = description
+            if name != "":
+                product_to_update.name = name
+            if price !="" and float(price)>=0:
+                product_to_update.price = price
+            if description!="":
+                product_to_update.description = description
+            
             ProductModel.save_to_db(product_to_update)
             return product_to_update
         except Exception:
             return False
     
     def find_product_by_id(id):
-        return ProductModel.find_by_id(id)
+        product = ProductModel.find_by_id(id)
+        return ProductModel.serialize(product)

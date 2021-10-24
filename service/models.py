@@ -2,8 +2,13 @@ from flask import Flask, render_template, url_for
 from flask.globals import request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from sqlalchemy.exc import InvalidRequestError
 
 db = SQLAlchemy()
+
+class DataValidationError(Exception):
+    """ Used for an data validation errors when deserializing """
+    pass
 class ProductModel(db.Model):
     app = None
     id = db.Column(db.Integer, primary_key=True)
@@ -23,23 +28,50 @@ class ProductModel(db.Model):
         db.create_all()  
 
     def save_to_db(new_product):
-        db.session.add(new_product)
-        db.session.commit()
+        try:
+            db.session.add(new_product)
+            db.session.commit()
+        except InvalidRequestError:
+            db.session.rollback()
+
 
     def delete_from_db(request_id):
         db.session.delete(request_id)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except InvalidRequestError:
+            db.session.rollback()
 
     def get_products():
         return ProductModel.query.order_by(ProductModel.creation_date).all()
 
     @classmethod        
     def find_by_name(cls,name):
-        return cls.query.filter_by(name=name).first()
+        product = cls.query.filter_by(name=name).first()
+        return product
+        
     
     @classmethod        
     def find_by_id(cls,id):
         return cls.query.filter_by(id=id).first()
+
+    def serialize(self):
+        return {
+            "id": self.id, 
+            "name": self.name,
+            "description": self.description,
+            "creation_date": self.creation_date,
+            "price": self.price
+        }
+
+    def deserialize(self, data):
+        self.name = data["name"]
+        self.description = data["description"]
+        self.price = data["price"]
+        self.id = data["id"]
+        self.creation_date = data["creation_date"]
+
+        return self
 
 def init_db(app):
     ProductModel.init_db(app)
