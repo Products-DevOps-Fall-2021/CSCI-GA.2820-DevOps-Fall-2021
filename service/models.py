@@ -53,7 +53,8 @@ class ProductModel(db.Model):
     
     @classmethod        
     def find_by_id(cls,id):
-        return cls.query.filter_by(id=id).first()
+        product = cls.query.filter_by(id=id).first()
+        return product
 
     def serialize(self):
         return {

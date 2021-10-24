@@ -10,8 +10,8 @@ class ProductService():
 
     def get_all_products():
         products = ProductModel.get_products()
-        results = [product.serialize() for product in products]
-        return results
+        results = [ProductModel.serialize(product) for product in products]
+        return str(results)
     
     def create_product(product_name, product_price, pdescription):
         new_product = ProductModel(name = product_name, price = product_price, description = pdescription)
@@ -46,4 +46,6 @@ class ProductService():
     
     def find_product_by_id(id):
         product = ProductModel.find_by_id(id)
+        if product is None:
+            return False
         return ProductModel.serialize(product)
