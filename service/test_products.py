@@ -27,6 +27,9 @@ class TestProductOperation(unittest.TestCase):
     def test_create_product_failure(self):
         self.assertRaises(TypeError, ProductModel(price = 35), True)
         self.assertRaises(TypeError, ProductModel(name = "Demo"), True)
+        self.assertRaises(TypeError, ProductModel(), True)
+        self.assertRaises(TypeError, ProductModel(price = "Demo"), True)
+        self.assertRaises(TypeError, ProductModel(name = 35), True)
 
     def test_delete_product_success(self):
         test_product = ProductModel(name = "Demo", price = 35)
@@ -37,6 +40,7 @@ class TestProductOperation(unittest.TestCase):
 
     def test_delete_product_failure(self):
         self.assertRaises(TypeError, ProductService.delete_product("Demo"), True)
+        self.assertRaises(TypeError, ProductService.delete_product(35), True)
 
     def test_update_product_success(self):
         test_product = ProductModel(name = "Demo", price = 35)
@@ -48,7 +52,7 @@ class TestProductOperation(unittest.TestCase):
 
     def test_update_product_failure(self):
         self.assertRaises(TypeError, ProductService.update_product("Demo", "Demo", "Demo"), True)
-
+        self.assertRaises(TypeError, ProductService.update_product(35, 35, 35), True)
 
 if __name__ == '__main__':
     unittest.main()
