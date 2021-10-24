@@ -37,7 +37,7 @@ def create():
     return "Issue adding product"
 
 
-@app.route('/delete/<int:id>', methods=["POST"])
+@app.route('/delete/<int:id>', methods=['POST'])
 def delete(id):
     app.logger.info("Request to delete product...")
     output = ProductService.delete_product(id)
@@ -46,7 +46,7 @@ def delete(id):
     return 'There was a problem deleting the product'
 
 
-@app.route('/update/<int:id>', methods=['GET', 'POST'])
+@app.route('/update/<int:id>', methods=['POST', 'GET'])
 def update(id):
     if request.method=='POST':
         name = request.form['name']
