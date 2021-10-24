@@ -13,17 +13,15 @@ class ProductService():
         results = [ProductModel.serialize(product) for product in products]
         return str(results)
     
-    def create_product(product_name, product_price, pdescription):
-        new_product = ProductModel(name = product_name, price = product_price, description = pdescription)
+    def create_product(product_name, product_price, pdescription):       
         try:
-            new_product = ProductModel(name = product_name, price = product_price)
+            new_product = ProductModel(name = product_name, price = product_price, description = pdescription)
             ProductModel.save_to_db(new_product)
             return True   
         except Exception:
             return False
 
     def delete_product( id):
-        product_to_delete = ProductModel.find_by_id(id)
         try:
             product_to_delete = ProductModel.find_by_id(id)
             ProductModel.delete_from_db(product_to_delete)
@@ -31,16 +29,15 @@ class ProductService():
         except Exception:
             return False
 
-    def update_product(id, name , price, description):
-        product_to_update = ProductModel.find_by_id(id)
+    def update_product(id, name , price, description):      
         try:
+            product_to_update = ProductModel.find_by_id(id)
             if name != "":
                 product_to_update.name = name
             if price !="" and float(price)>=0:
                 product_to_update.price = price
             if description!="":
-                product_to_update.description = description
-            
+                product_to_update.description = description          
             ProductModel.save_to_db(product_to_update)
             return product_to_update
         except Exception:

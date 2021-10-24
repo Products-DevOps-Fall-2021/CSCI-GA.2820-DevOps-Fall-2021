@@ -43,16 +43,13 @@ class ProductModel(db.Model):
 
     def get_products():
         return ProductModel.query.order_by(ProductModel.creation_date).all()
-
-    @classmethod        
-    def find_by_name(cls,name):
-        product = cls.query.filter_by(name=name).first()
+    
+    def find_by_name(name):
+        product = ProductModel.query.filter_by(name=name).first()
         return product
         
-    
-    @classmethod        
-    def find_by_id(cls,id):
-        product = cls.query.filter_by(id=id).first()
+    def find_by_id(id):
+        product = ProductModel.query.filter_by(id=id).first()
         return product
 
     def serialize(self):
