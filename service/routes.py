@@ -48,7 +48,7 @@ def create():
     return internal_server_error("Product Cannot be added in db due to internal server error")
 
 
-@app.route('/delete/<int:id>', methods=["POST"])
+@app.route('/delete/<int:id>', methods=['POST'])
 def delete(id):
     try:
         id = int(id)
@@ -63,7 +63,7 @@ def delete(id):
     return internal_server_error("Product not found in DB")
 
 
-@app.route('/update/<int:id>', methods=['GET', 'POST'])
+@app.route('/update/<int:id>', methods=['POST', 'GET'])
 def update(id):
     if request.method=='POST':
         name = request.form['name']
