@@ -78,6 +78,7 @@
 
 						
 							<tr>
+								<th>ID</th>
 								<th>Name</th>
 								<th>Price</th>
 								<th>Added</th>
@@ -89,6 +90,7 @@
 						<tbody></tbody>
 							{% for product in products %}
 								<tr>
+									<td>{{product.id}}</td>
 									<td>{{product.name}}</td>
 									<td>{{product.price}}</td>
 									<td>{{product.creation_date.date()}}</td>
