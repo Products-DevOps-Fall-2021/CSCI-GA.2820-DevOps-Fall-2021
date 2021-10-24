@@ -5,7 +5,6 @@ from datetime import datetime
 from sqlalchemy.exc import InvalidRequestError
 
 db = SQLAlchemy()
-
 class DataValidationError(Exception):
     """ Used for an data validation errors when deserializing """
     pass
@@ -53,7 +52,8 @@ class ProductModel(db.Model):
     
     @classmethod        
     def find_by_id(cls,id):
-        return cls.query.filter_by(id=id).first()
+        product = cls.query.filter_by(id=id).first()
+        return product
 
     def serialize(self):
         return {

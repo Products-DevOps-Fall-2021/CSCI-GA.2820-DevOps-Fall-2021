@@ -17,7 +17,7 @@ def index():
 def list_all_products(): 
     app.logger.info("Request to list all products") 
     products = ProductService.get_all_products()
-    return products , status.HTTP_200_OK
+    return products
 
 @app.route("/products/<int:id>", methods=["GET"])
 def list_product(id):
@@ -28,6 +28,8 @@ def list_product(id):
         return request_validation_error("Invalid Product ID.")
     app.logger.info("Request to list a product with a given id") 
     product= ProductService.find_product_by_id(id)
+    if product==False:
+        return not_found("Product Id not found from database")
     return product, status.HTTP_200_OK
 
 
