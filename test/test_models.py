@@ -74,6 +74,18 @@ class TestModels(unittest.TestCase):
     def test_save_to_db_failure(self):
         self.assertRaises(TypeError, ProductModel.save_to_db("Demo"), True)
 
+    def test_delete_from_db_success(self):
+        products_before = len(ProductModel.get_products())
+        test_product = ProductModel(name = "Demo", price = 35, description = "Description")
+        self.assertEqual(ProductModel.save_to_db(test_product), None)
+        self.assertEqual(products_before+1, len(ProductModel.get_products()))
+        self.assertEqual(ProductModel.delete_from_db(test_product), None)
+        self.assertEqual(products_before, len(ProductModel.get_products()))
+
+
+    def test_delete_from_db_failure(self):
+        self.assertEqual(ProductModel.delete_from_db(None), None)
+
     def test_serialize_success(self):
         test_product = ProductModel(name = "Demo", price = 35, description = "Description")
         self.assertEqual(test_product.serialize()['id'], test_product.id)

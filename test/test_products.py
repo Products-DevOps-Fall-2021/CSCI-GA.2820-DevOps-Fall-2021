@@ -71,6 +71,12 @@ class TestProducts(unittest.TestCase):
         self.assertEqual(ProductService.update_product("Demo", "Demo", "Demo","Demo"), None)
         self.assertEqual(ProductService.update_product(-1, -1, -1,-1), None)
 
+    def test_delete_product_success(self):
+        data = ProductService.create_product("Demo", 35, "Description")
+        self.assertEqual(len(data)>0, True)
+        prev_len = len(ProductModel.get_products())
+        ProductService.delete_product(data['id'])
+        self.assertEqual(prev_len-1, len(ProductModel.get_products()))
 
 
 if __name__ == '__main__':

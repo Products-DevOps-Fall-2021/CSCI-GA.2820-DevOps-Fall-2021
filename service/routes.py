@@ -9,6 +9,7 @@ from service import app
 from service import status
 from flask import Flask, jsonify, request, url_for, make_response, abort, request
 import json
+import logging
 
 #root Home page
 @app.route("/",  methods=['GET'])
@@ -75,7 +76,12 @@ def update(id):
     else:
         return not_found("Product Id not found from database which needs to update")
     
-
+@app.route('/products/<int:id>', methods=['DELETE'])
+def delete(id):
+    app.logger.info("Request to delete product...")
+    output = ProductService.delete_product(id)
+    response_code = status.HTTP_204_NO_CONTENT
+    return make_response('', response_code) 
 
 def check_content_type(media_type):
     """Checks that the media type is correct"""

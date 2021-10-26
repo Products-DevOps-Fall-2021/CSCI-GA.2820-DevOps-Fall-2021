@@ -129,10 +129,8 @@ class TestProductServer(unittest.TestCase):
         )
         # Check that the location header was correct
         resp = self.app.get(location, content_type=CONTENT_TYPE_JSON)
-        print('*->'*100, resp.status_code, location)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         new_product = resp.get_json()
-        print('N->'*100,new_product )
         self.assertEqual(new_product[0]["name"], test_product.name, "Names do not match")
         self.assertEqual(
             new_product[0]["description"], test_product.description, "Descripton does not match"
@@ -195,6 +193,30 @@ class TestProductServer(unittest.TestCase):
         )
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_delete_product(self):
+        """Delete a Product"""
+        test_product = self._create_products(1)[0]
+        resp = self.app.delete(
+            "{0}/{1}".format('/products', test_product.id), 
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(len(resp.data), 0)
+        # make sure they are deleted
+        resp = self.app.get(
+            "{0}/{1}".format(BASE_URL, test_product.id), content_type=CONTENT_TYPE_JSON
+        )
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+        test_product.id = -1
+
+        resp = self.app.delete(
+            "{0}/{1}".format('/products', test_product.id), 
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
 if __name__ =='__main__':
     unittest.main()
