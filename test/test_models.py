@@ -85,6 +85,17 @@ class TestModels(unittest.TestCase):
         test_product.deserialize(data)
         self.assertEqual(test_product.id, prev_id)
 
+    def test_sucess_find_product_by_id_model(self):
+        test_product = ProductModel(name = "Demo", price = 35, description = "Description")
+        self.assertEqual(ProductModel.save_to_db(test_product), None)
+        self.assertNotEqual(ProductModel.find_by_name("Demo"), None)
+
+    def test_find_by_id_success(self):
+        test_product = ProductModel(name = "Demo", price = 35, description = "Description")
+        self.assertEqual(ProductModel.save_to_db(test_product), None)
+        self.assertEqual(ProductModel.find_by_id(test_product.id).id, test_product.id)
+
+
 
 if __name__ == '__main__':
     unittest.main()

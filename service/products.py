@@ -16,5 +16,11 @@ class ProductService():
         products = ProductModel.get_products()
         results = [ProductModel.serialize(product) for product in products]
         return results
-        
+    
+    def find_product_by_id(id):
+        product = ProductModel.find_by_id(id)
+        if product is None:
+            return None
+        return ProductModel.serialize(product)
+
     
