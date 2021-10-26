@@ -53,10 +53,15 @@ class TestProducts(unittest.TestCase):
         self.assertNotEqual(ProductService.get_all_products(), "")  
     
     def test_create_product_success(self):
-        ProductService.create_product("Demo", 35, "Demo Description")
+        ProductService.create_product("Demo", 35, "Demo Description")        
 
-    def test_create_product_failure(self):
-        pass
+    def test_sucess_find_product_by_id(self):
+        data = ProductService.create_product("Demo", 35, "Description")
+        self.assertEqual(len(ProductService.find_product_by_id(data['id']))>0, True)       
+        
+    def test_failure_find_product_by_id(self):
+        self.assertEqual(ProductService.find_product_by_id(-1), None)
+
 
 if __name__ == '__main__':
     unittest.main()

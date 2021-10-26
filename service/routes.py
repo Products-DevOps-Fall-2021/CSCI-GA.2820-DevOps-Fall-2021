@@ -3,7 +3,7 @@ from flask import Flask, render_template, url_for, make_response
 from werkzeug.exceptions import BadRequest
 from werkzeug.utils import redirect
 from flask.globals import request
-from service.error_handler import  request_validation_error
+from service.error_handler import  request_validation_error, not_found
 from service.products import ProductService
 from service import app
 from service import status
@@ -16,6 +16,26 @@ def index():
     return make_response(jsonify(name='Products REST API Service', version='1.0', 
                             url = url_for('list_all_products', _external=True)), status.HTTP_200_OK)
 
+#get all products
+@app.route("/products", methods=["GET"])
+def list_all_products(): 
+    app.logger.info("Request to list all products") 
+    products = ProductService.get_all_products()
+    return make_response(
+        jsonify(products), status.HTTP_200_OK
+    )
+
+#get a specific product
+@app.route("/products/<int:id>", methods=["GET"])
+def list_product(id):  
+    id = int(id)
+    app.logger.info("Request to list a product with a given id") 
+    product= ProductService.find_product_by_id(id)
+    if product is None:
+        return not_found("Product Id not found from database")
+    return make_response(
+        product, status.HTTP_200_OK
+    )
 
 @app.route("/products", methods=["POST"])
 def create():
@@ -36,13 +56,6 @@ def create():
         jsonify(output), status.HTTP_201_CREATED, {'Location': location_url}
     )
 
-@app.route("/products", methods=["GET"])
-def list_all_products(): 
-    app.logger.info("Request to list all products") 
-    products = ProductService.get_all_products()
-    return make_response(
-        jsonify(products), status.HTTP_200_OK
-    )
 
 def check_content_type(media_type):
     """Checks that the media type is correct"""

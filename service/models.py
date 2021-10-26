@@ -62,5 +62,15 @@ class ProductModel(db.Model):
             )
         return self
 
+    @classmethod        
+    def find_by_name(cls,name):
+        product = cls.query.filter_by(name=name).first()
+        return product
+        
+    @classmethod        
+    def find_by_id(cls,id):
+        product = cls.query.filter_by(id=id).first()
+        return product
+
 def init_db(app):
     ProductModel.init_db(app)

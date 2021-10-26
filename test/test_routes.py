@@ -87,6 +87,22 @@ class TestProductServer(unittest.TestCase):
         resp = self.app.get("/products/yash", content_type=BASE_URL)
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
+    def test_get_product(self):
+        """Get a single Product"""
+        # get the id of a product
+        test_product = self._create_products(1)[0]
+        resp = self.app.get(
+            "/products/{}".format(test_product.id), content_type=CONTENT_TYPE_JSON
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        self.assertEqual(data["name"], test_product.name)
+
+    def test_get_product_not_found(self):
+        """Get a Product thats not found"""
+        resp = self.app.get("/products/0")
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
     def test_create_product(self):
         """Create a new Product"""
         test_product = ProductFactory()
@@ -94,8 +110,7 @@ class TestProductServer(unittest.TestCase):
         resp = self.app.post(
             BASE_URL, 
             json=test_product.serialize(), 
-            content_type=CONTENT_TYPE_JSON,
-            
+            content_type=CONTENT_TYPE_JSON,       
         )
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
         location = resp.headers.get("Location", None)
@@ -143,6 +158,7 @@ class TestProductServer(unittest.TestCase):
             
         )
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
 
 if __name__ =='__main__':
     unittest.main()
