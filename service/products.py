@@ -17,6 +17,14 @@ class ProductService():
         results = [ProductModel.serialize(product) for product in products]
         return results
     
+    def delete_product( id):
+        product_to_delete = ProductModel.find_by_id(id)
+        if product_to_delete is  None :
+            return None
+        else :
+            ProductModel.delete_from_db(product_to_delete)
+            return product_to_delete
+            
     def find_product_by_id(id):
         product = ProductModel.find_by_id(id)
         if product is None:

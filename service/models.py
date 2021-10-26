@@ -36,6 +36,14 @@ class ProductModel(db.Model):
     def get_products():
         return ProductModel.query.order_by(ProductModel.creation_date).all()
 
+    def delete_from_db(request):
+        
+        try:
+            db.session.delete(request)
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
+            
     def serialize(self):
         return {
             "id": self.id, 
