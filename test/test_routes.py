@@ -160,5 +160,41 @@ class TestProductServer(unittest.TestCase):
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
 
+    def test_update_product(self):
+        """Update an existing Product"""
+        # create a product to update
+        test_product = ProductFactory()
+        resp = self.app.post(
+            BASE_URL, 
+            json=test_product.serialize(), 
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+        # update the product
+        new_product = resp.get_json()
+        logging.debug(new_product)
+        new_product["description"] = "unknown"
+        resp = self.app.put(
+            "/products/{}".format(new_product["id"]),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        updated_product = resp.get_json()
+        self.assertEqual(updated_product["description"], "unknown")
+
+        new_product["price"] = -100
+        resp = self.app.put(
+            "/products/{}".format(new_product["id"]),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+
 if __name__ =='__main__':
     unittest.main()

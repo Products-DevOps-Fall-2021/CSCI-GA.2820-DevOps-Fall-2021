@@ -56,6 +56,26 @@ def create():
         jsonify(output), status.HTTP_201_CREATED, {'Location': location_url}
     )
 
+@app.route('/products/<int:id>',  methods=["PUT"])
+def update(id):
+    app.logger.info("Request to Update product...")
+    check_content_type("application/json")
+    product = ProductService.find_product_by_id(id)
+    if product :
+        record = json.loads(request.data)
+        name = record['name']
+        price = record['price']
+        description = record['description']
+        if price !="" and float(price)<0:
+            return request_validation_error("Product price cannot be less than zero.")
+        output = ProductService.update_product(id,name, price, description)
+    
+        response_code = status.HTTP_200_OK
+        return make_response(jsonify(output), response_code)    
+    else:
+        return not_found("Product Id not found from database which needs to update")
+    
+
 
 def check_content_type(media_type):
     """Checks that the media type is correct"""
@@ -67,3 +87,4 @@ def check_content_type(media_type):
         status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
         "Content-Type must be {}".format(media_type),
     )
+

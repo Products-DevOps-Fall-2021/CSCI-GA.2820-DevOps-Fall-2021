@@ -96,6 +96,7 @@ class TestModels(unittest.TestCase):
         self.assertEqual(ProductModel.find_by_id(test_product.id).id, test_product.id)
 
 
+    
 
 if __name__ == '__main__':
     unittest.main()

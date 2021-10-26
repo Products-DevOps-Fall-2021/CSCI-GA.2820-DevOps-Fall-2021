@@ -62,6 +62,16 @@ class TestProducts(unittest.TestCase):
     def test_failure_find_product_by_id(self):
         self.assertEqual(ProductService.find_product_by_id(-1), None)
 
+    def test_update_product_success(self):
+        data = ProductService.create_product("Demo", 35, "Description")
+        self.assertEqual(len(data)>0, True)
+        self.assertEqual(len(ProductService.update_product(data['id'], "Demo1", 351, "Description1"))>0, True)
+        
+    def test_update_product_failure(self):
+        self.assertEqual(ProductService.update_product("Demo", "Demo", "Demo","Demo"), None)
+        self.assertEqual(ProductService.update_product(-1, -1, -1,-1), None)
+
+
 
 if __name__ == '__main__':
     unittest.main()

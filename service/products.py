@@ -23,4 +23,21 @@ class ProductService():
             return None
         return ProductModel.serialize(product)
 
+    def update_product(id, name , price, description):
+        
+        if type(id) != type(-1):
+            id = -1
+        product_to_update = ProductModel.find_by_id(id)
+        if id < 0:
+            return None
+        if name != "":
+            product_to_update.name = name
+        if price !="" and float(price)>=0:
+            product_to_update.price = price
+        if description!="":
+            product_to_update.description = description
+        
+        ProductModel.save_to_db(product_to_update)
+        return ProductModel.serialize(product_to_update)
+
     
