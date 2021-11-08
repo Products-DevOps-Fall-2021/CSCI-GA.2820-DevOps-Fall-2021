@@ -197,6 +197,17 @@ class TestProductServer(unittest.TestCase):
         )
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_post_on_bad_route(self):
+        """Test bad methods and route combination"""
+        test_product = ProductFactory()
+        logging.debug(test_product)
+        resp = self.app.post(
+            "/products/0", 
+            json=test_product.serialize(), 
+            content_type=CONTENT_TYPE_JSON,       
+        )
+        self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
 
     def test_update_product(self):
         """Update an existing Product"""
