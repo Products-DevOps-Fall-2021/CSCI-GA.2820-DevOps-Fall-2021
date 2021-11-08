@@ -3,7 +3,7 @@ from flask import Flask, render_template, url_for, make_response
 from werkzeug.exceptions import BadRequest
 from werkzeug.utils import redirect
 from flask.globals import request
-from service.error_handler import  request_validation_error, not_found
+from service.error_handler import  bad_request, request_validation_error, not_found
 from service.products import ProductService
 from service import app
 from service import status
@@ -48,8 +48,12 @@ def create():
     description = record['description']
     if product_name =="":
         return request_validation_error("Product name is required.")
-    if product_price =="" or float(product_price)<0:
-        return request_validation_error("Product price is required and cannot be less than zero.")
+    try:
+        price_value = float(product_price)
+    except:
+        return bad_request("Product price needs to be a numeric") 
+    if float(product_price)<0:
+        return request_validation_error("Product price cannot be less than zero.")
     output = ProductService.create_product(product_name, product_price, description)
 
     location_url = url_for("list_all_products", id=output['id'], _external=True)
