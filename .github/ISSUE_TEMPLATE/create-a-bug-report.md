@@ -7,8 +7,6 @@ assignees: ''
 
 ---
 
-**Title** ...  [title]
-
 **Description** ...  [additional information]
 
 **Steps to Reproduce** ...  [steps]
