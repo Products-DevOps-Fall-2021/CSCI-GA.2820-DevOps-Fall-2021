@@ -127,6 +127,8 @@ class TestProductServer(unittest.TestCase):
         self.assertEqual(
             new_product["price"], test_product.price, "Price does not match"
         )
+
+
         # Check that the location header was correct
         resp = self.app.get(location, content_type=CONTENT_TYPE_JSON)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
@@ -147,7 +149,45 @@ class TestProductServer(unittest.TestCase):
             
         )
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+        #Test a product name > 100 characters
+        test_product.name = 'teststringteststringteststringteststringteststringteststringteststringteststringteststringteststring1'
+        resp = self.app.post(
+            BASE_URL, 
+            json=test_product.serialize(), 
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+        
         test_product.name = 'Demo'
+        test_product.description= ""
+        resp = self.app.post(
+            BASE_URL, 
+            json=test_product.serialize(), 
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+        #Test a product description > 250 characters
+        test_product.description = 'teststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststring1'
+        resp = self.app.post(
+            BASE_URL, 
+            json=test_product.serialize(), 
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+        test_product.description = "Demo product description"
+        test_product.price= "gibberish string"
+        resp = self.app.post(
+            BASE_URL, 
+            json=test_product.serialize(), 
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+        
         test_product.price= -100
         resp = self.app.post(
             BASE_URL, 
@@ -156,6 +196,17 @@ class TestProductServer(unittest.TestCase):
             
         )
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_post_on_bad_route(self):
+        """Test bad methods and route combination"""
+        test_product = ProductFactory()
+        logging.debug(test_product)
+        resp = self.app.post(
+            "/products/0", 
+            json=test_product.serialize(), 
+            content_type=CONTENT_TYPE_JSON,       
+        )
+        self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
     def test_update_product(self):
@@ -183,6 +234,38 @@ class TestProductServer(unittest.TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         updated_product = resp.get_json()
         self.assertEqual(updated_product["description"], "unknown")
+
+        #Test a product name > 100 characters
+        new_product["name"] = 'teststringteststringteststringteststringteststringteststringteststringteststringteststringteststring1'
+        resp = self.app.put(
+            "/products/{}".format(new_product["id"]),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+        
+        new_product["name"] = 'Demo'
+        #Test a product description > 250 characters
+        new_product["description"] = 'teststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststring1'
+        resp = self.app.put(
+            "/products/{}".format(new_product["id"]),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+        new_product["description"] = "Demo product description"
+
+        new_product["price"] = "gibberish string"
+        resp = self.app.put(
+            "/products/{}".format(new_product["id"]),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
         new_product["price"] = -100
         resp = self.app.put(
