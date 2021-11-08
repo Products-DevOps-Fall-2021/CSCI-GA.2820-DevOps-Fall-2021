@@ -13,7 +13,7 @@ class ProductModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(250), nullable=False)
-    creation_date = db.Column(db.DateTime, default=datetime.utcnow)#, nullable=False)
+    creation_date = db.Column(db.DateTime, default=datetime.utcnow)
     price = db.Column(db.Float, nullable = False)
 
     def __repr__(self):
