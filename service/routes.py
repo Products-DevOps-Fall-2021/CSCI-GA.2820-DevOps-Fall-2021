@@ -51,7 +51,8 @@ def create():
     try:
         price_value = float(product_price)
     except:
-        return bad_request("Product price needs to be a numeric") 
+        return request_validation_error("Product price is required and needs to be a numeric") 
+        
     if float(product_price)<0:
         return request_validation_error("Product price cannot be less than zero.")
     output = ProductService.create_product(product_name, product_price, description)
@@ -71,7 +72,13 @@ def update(id):
         name = record['name']
         price = record['price']
         description = record['description']
-        if price !="" and float(price)<0:
+
+        try:
+            price_value = float(price)
+        except:
+            return request_validation_error("Product price is required and needs to be a numeric") 
+
+        if float(price)<0:
             return request_validation_error("Product price cannot be less than zero.")
         output = ProductService.update_product(id,name, price, description)
     
