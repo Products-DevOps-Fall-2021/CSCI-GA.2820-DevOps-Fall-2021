@@ -7,10 +7,14 @@ assignees: ''
 
 ---
 
-**Description** ...  [additional information]
+**Description** 
+...
 
-**Steps to Reproduce** ...  [steps]
+**Steps to Reproduce** 
+...
 
 **Expected Results:**
+...
 
 **Observed Results:**
+...
