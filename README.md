@@ -1,5 +1,7 @@
 # products
 
+[![Build Status](https://app.travis-ci.com/sonawanemaitreya/products.svg?branch=master)](https://app.travis-ci.com/sonawanemaitreya/products)
+
 ### Setting up the development environment
 Install [Git](http://git-scm.com/downloads) for using bash commands.
 To setup the development environment, we use [Vagrant](https://www.vagrantup.com/downloads) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads). The recommended code editor is [Visual Studio Code](https://code.visualstudio.com/).
