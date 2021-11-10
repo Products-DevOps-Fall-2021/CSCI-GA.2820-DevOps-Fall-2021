@@ -1,6 +1,6 @@
 # products
 
-[![Build Status](https://app.travis-ci.com/sonawanemaitreya/products.svg?branch=master)](https://app.travis-ci.com/sonawanemaitreya/products)
+[![Build Status](https://app.travis-ci.com/products-devops-fall-21/products.svg?branch=main)](https://app.travis-ci.com/products-devops-fall-21/products)
 [![codecov](https://codecov.io/gh/sonawanemaitreya/products/branch/master/graph/badge.svg?token=GVYT4K6RPM)](https://codecov.io/gh/sonawanemaitreya/products)
 
 ### Setting up the development environment
