@@ -4,6 +4,7 @@ attrs==21.2.0
 click==7.1.2
 colorama==0.4.4
 coverage==6.0.2
+codecov==2.1.10
 factory-boy==3.2.0
 Faker==9.5.2
 flake8==3.5.0
