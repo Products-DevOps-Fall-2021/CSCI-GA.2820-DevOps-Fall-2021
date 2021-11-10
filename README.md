@@ -1,6 +1,6 @@
 # products
 
-[![Build Status](https://app.travis-ci.com/products-devops-fall-21/products.svg?branch=main)](https://app.travis-ci.com/products-devops-fall-21/products)
+[![Build Status](https://app.travis-ci.com/products-devops-fall-21/products.svg?branch=yml-file-CI)](https://app.travis-ci.com/products-devops-fall-21/products)
 [![codecov](https://codecov.io/gh/products-devops-fall-21/products/branch/main/graph/badge.svg?token=B6SCHVQSB5)](https://codecov.io/gh/products-devops-fall-21/products)
 
 ### Setting up the development environment
