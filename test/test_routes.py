@@ -280,6 +280,81 @@ class TestProductServer(unittest.TestCase):
         )
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
+
+
+
+    def test_disable_product(self):
+        """Disable an existing Product"""
+        # create a product to update
+        test_product = ProductFactory()
+        resp = self.app.post(
+            BASE_URL, 
+            json=test_product.serialize(), 
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+        # disable the product
+        new_product = resp.get_json()
+        logging.debug(new_product)
+        resp = self.app.put(
+            "/products/{}/disable".format(new_product["id"]),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        updated_product = resp.get_json()
+        self.assertEqual(updated_product["is_active"], False)
+
+        #Test a disable incorrent product 
+       
+        resp = self.app.put(
+            "/products/{}/disable".format(-1),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+        
+    def test_enable_product(self):
+        """Enable an existing Product"""
+        # create a product to update
+        test_product = ProductFactory()
+        resp = self.app.post(
+            BASE_URL, 
+            json=test_product.serialize(), 
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+        # disable the product
+        new_product = resp.get_json()
+        logging.debug(new_product)
+        resp = self.app.put(
+            "/products/{}/enable".format(new_product["id"]),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        updated_product = resp.get_json()
+        self.assertEqual(updated_product["is_active"], True)
+
+
+        #Test a disable incorrent product 
+       
+        resp = self.app.put(
+            "/products/{}/enable".format(-1),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)  
+
+
     def test_delete_product(self):
         """Delete a Product"""
         test_product = self._create_products(1)[0]
