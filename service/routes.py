@@ -20,11 +20,34 @@ def index():
 #get all products
 @app.route("/products", methods=["GET"])
 def list_all_products(): 
-    app.logger.info("Request to list all products") 
-    products = ProductService.get_all_products()
-    return make_response(
-        jsonify(products), status.HTTP_200_OK
-    )
+    minimum = request.args.get('minimum')
+    maximum = request.args.get('maximum')
+    if minimum or maximum:
+        try:
+            min_price = float(minimum)
+        except:
+            return request_validation_error("Minimum price is required and needs to be a numeric") 
+        if float(minimum)<0:
+            return request_validation_error("Minimum price cannot be less than zero.")
+        try:
+            max_price = float(maximum)
+        except:
+            return request_validation_error("Maximum price is required and needs to be a numeric") 
+        if float(maximum)<0:
+            return request_validation_error("Maximum price cannot be less than zero.")
+
+        app.logger.info("Request to list all products in the given range") 
+        products = ProductService.query_by_price(min_price, max_price)
+        return make_response(
+            jsonify(products), status.HTTP_200_OK
+        )
+    
+    else:
+        app.logger.info("Request to list all products") 
+        products = ProductService.get_all_products()
+        return make_response(
+            jsonify(products), status.HTTP_200_OK
+        )
 
 #get a specific product
 @app.route("/products/<int:id>", methods=["GET"])
@@ -136,6 +159,7 @@ def delete(id):
     output = ProductService.delete_product(id)
     response_code = status.HTTP_204_NO_CONTENT
     return make_response('', response_code) 
+
 
 def check_content_type(media_type):
     """Checks that the media type is correct"""
