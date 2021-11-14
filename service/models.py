@@ -16,6 +16,7 @@ class ProductModel(db.Model):
     creation_date = db.Column(db.DateTime, default=datetime.utcnow)
     price = db.Column(db.Float, nullable = False)
     is_active = db.Column(db.Boolean, unique=False, default=True)
+    like = db.Column(db.Integer, default=0)
 
     def __repr__(self):
         return '<Task %r>' %self.id
@@ -52,7 +53,8 @@ class ProductModel(db.Model):
             "description": self.description,
             "creation_date": self.creation_date,
             "price": self.price,
-            "is_active": self.is_active
+            "is_active": self.is_active,
+            "like" : self.like
         }
 
     def deserialize(self, data):
@@ -63,7 +65,8 @@ class ProductModel(db.Model):
             self.id = data["id"]
             self.creation_date = data["creation_date"]
             self.is_active = data['is_active']
-            
+            self.like = data["like"]
+
         except KeyError as error:
             raise DataValidationError(
                 "Invalid Product: missing " + error.args[0]
@@ -83,8 +86,10 @@ class ProductModel(db.Model):
     def find_by_id(cls,id):
         product = cls.query.filter_by(id=id).first()
         return product
-
     
+    @classmethod
+    def query_by_price(cls, minimum, maximum):
+        return cls.query.filter(cls.price.between(minimum, maximum))    
 
 def init_db(app):
     ProductModel.init_db(app)

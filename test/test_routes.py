@@ -280,9 +280,6 @@ class TestProductServer(unittest.TestCase):
         )
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
-
-
-
     def test_disable_product(self):
         """Disable an existing Product"""
         # create a product to update
@@ -379,6 +376,96 @@ class TestProductServer(unittest.TestCase):
             
         )
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+    
+    def test_increament_like_product(self):
+        """increase the likes of an existing Product"""
+        # create a product to update
+        test_product = ProductFactory()
+        resp = self.app.post(
+            BASE_URL, 
+            json=test_product.serialize(), 
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+        # increase the like
+        new_product = resp.get_json()
+        logging.debug(new_product)
+        new_product["description"] = "unknown"
+        resp = self.app.put(
+            "/products/{}/like".format(new_product["id"]),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        updated_product = resp.get_json()
+        self.assertEqual(updated_product["like"], 1)
+
+        resp = self.app.put(
+            "/products/{}/like".format(-1),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_list_products_by_price_range(self):
+        """List the products in the given price range"""
+        self._create_products(5)
+        resp = self.app.get("/products?minimum=10&maximum=20000")
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        print(data)
+        for d in data:
+            self.assertGreaterEqual(d['price'], 10)
+            self.assertLessEqual(d['price'], 20000)
+    
+    def test_no_max_for_price_range(self):
+        """No maximum price given for listing products"""
+        self._create_products(5)
+        resp = self.app.get("/products?minimum=10&maximum=")
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_no_min_for_price_range(self):
+        """No minimum price given for listing products"""
+        self._create_products(5)
+        resp = self.app.get("/products?minimum=&maximum=20000")
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_decreament_like_product(self):
+        """decrease likes of existing Product"""
+        # create a product to update
+        test_product = ProductFactory()
+        resp = self.app.post(
+            BASE_URL, 
+            json=test_product.serialize(), 
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        # decrease the like
+        new_product = resp.get_json()
+        logging.debug(new_product)
+        new_product["description"] = "unknown"
+        resp = self.app.put(
+            "/products/{}/dislike".format(new_product["id"]),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        updated_product = resp.get_json()
+        self.assertEqual(updated_product["like"], -1)
+
+        resp = self.app.put(
+            "/products/{}/dislike".format(-1),
+            json=new_product,
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)  
 
 if __name__ =='__main__':
     unittest.main()
