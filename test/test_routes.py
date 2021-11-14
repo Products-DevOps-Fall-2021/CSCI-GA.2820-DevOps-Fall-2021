@@ -339,19 +339,6 @@ class TestProductServer(unittest.TestCase):
         )
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_decreament_like_product(self):
-        """decrease likes of existing Product"""
-        # create a product to update
-        test_product = ProductFactory()
-        resp = self.app.post(
-            BASE_URL, 
-            json=test_product.serialize(), 
-            content_type=CONTENT_TYPE_JSON,
-            
-        )
-        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
-
-
     def test_list_products_by_price_range(self):
         """List the products in the given price range"""
         self._create_products(5)
@@ -375,6 +362,17 @@ class TestProductServer(unittest.TestCase):
         resp = self.app.get("/products?minimum=&maximum=20000")
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_decreament_like_product(self):
+        """decrease likes of existing Product"""
+        # create a product to update
+        test_product = ProductFactory()
+        resp = self.app.post(
+            BASE_URL, 
+            json=test_product.serialize(), 
+            content_type=CONTENT_TYPE_JSON,
+            
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
         # decrease the like
         new_product = resp.get_json()
         logging.debug(new_product)
