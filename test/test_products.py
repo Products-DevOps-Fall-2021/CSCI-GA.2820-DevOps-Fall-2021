@@ -71,6 +71,17 @@ class TestProducts(unittest.TestCase):
         self.assertEqual(ProductService.update_product("Demo", "Demo", "Demo","Demo"), None)
         self.assertEqual(ProductService.update_product(-1, -1, -1,-1), None)
 
+    def test_increament_like_product_success(self):
+        data = ProductService.create_product("Demo", 35, "Description")
+        self.assertEqual(len(data)>0, True)
+        self.assertEqual(len(ProductService.increament_product_like(data['id']))>0, True)
+    
+    def test_decreament_like_product_success(self):
+        data = ProductService.create_product("Demo", 35, "Description")
+        self.assertEqual(len(data)>0, True)
+        self.assertEqual(len(ProductService.decreament_product_like(data['id']))>0, True)
+    
+    
     def test_delete_product_success(self):
         data = ProductService.create_product("Demo", 35, "Description")
         self.assertEqual(len(data)>0, True)
