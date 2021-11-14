@@ -48,6 +48,30 @@ class ProductService():
         ProductModel.save_to_db(product_to_update)
         return ProductModel.serialize(product_to_update)
 
+
+    def enable_product(id):
+        product_to_update = ProductModel.find_by_id(id)
+        
+        if product_to_update is None:
+            return None
+
+        product_to_update.is_active = True
+        ProductModel.save_to_db(product_to_update)
+        return ProductModel.serialize(product_to_update)
+        
+        
+
+
+    def disable_product(id):
+        product_to_update = ProductModel.find_by_id(id)
+        
+        if product_to_update is None:
+            return None
+
+        product_to_update.is_active = False
+        ProductModel.save_to_db(product_to_update)
+        return ProductModel.serialize(product_to_update)
+
     def query_by_price(minimum, maximum):
         products = ProductModel.query_by_price(minimum, maximum)
         results = [ProductModel.serialize(product) for product in products]
@@ -64,4 +88,3 @@ class ProductService():
         product_to_update.like=product_to_update.like-1
         ProductModel.save_to_db(product_to_update)
         return ProductModel.serialize(product_to_update)
-    

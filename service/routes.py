@@ -172,3 +172,38 @@ def check_content_type(media_type):
         "Content-Type must be {}".format(media_type),
     )
 
+
+
+@app.route('/products/<int:id>/disable',  methods=["PUT"])
+def disable(id):
+    app.logger.info("Request to Disable product...")
+    check_content_type("application/json")
+    product = ProductService.find_product_by_id(id)
+    if product :
+
+        output = ProductService.disable_product(id)
+        output['notify'] = 'PRODUCT IS DISABLED'
+        json_data =jsonify(output)
+        response_code = status.HTTP_200_OK
+        return make_response(json_data, response_code)    
+    else:
+        return not_found("Product Id not found from database which needs to update")
+
+
+@app.route('/products/<int:id>/enable',  methods=["PUT"])
+def enable(id):
+    app.logger.info("Request to Enable product...")
+    check_content_type("application/json")
+    product = ProductService.find_product_by_id(id)
+    if product :
+
+        output = ProductService.enable_product(id)
+        output['notify'] = 'PRODUCT IS ENABLED'
+        json_data =jsonify(output)
+        
+        response_code = status.HTTP_200_OK
+        return make_response(json_data, response_code)    
+    else:
+        return not_found("Product Id not found from database which needs to update")
+    
+

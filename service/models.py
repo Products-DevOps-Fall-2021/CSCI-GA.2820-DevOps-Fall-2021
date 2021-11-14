@@ -15,6 +15,7 @@ class ProductModel(db.Model):
     description = db.Column(db.String(250), nullable=False)
     creation_date = db.Column(db.DateTime, default=datetime.utcnow)
     price = db.Column(db.Float, nullable = False)
+    is_active = db.Column(db.Boolean, unique=False, default=True)
     like = db.Column(db.Integer, default=0)
 
     def __repr__(self):
@@ -52,6 +53,7 @@ class ProductModel(db.Model):
             "description": self.description,
             "creation_date": self.creation_date,
             "price": self.price,
+            "is_active": self.is_active,
             "like" : self.like
         }
 
@@ -62,6 +64,7 @@ class ProductModel(db.Model):
             self.price = data["price"]
             self.id = data["id"]
             self.creation_date = data["creation_date"]
+            self.is_active = data['is_active']
             self.like = data["like"]
 
         except KeyError as error:
@@ -83,7 +86,7 @@ class ProductModel(db.Model):
     def find_by_id(cls,id):
         product = cls.query.filter_by(id=id).first()
         return product
-
+    
     @classmethod
     def query_by_price(cls, minimum, maximum):
         return cls.query.filter(cls.price.between(minimum, maximum))    
