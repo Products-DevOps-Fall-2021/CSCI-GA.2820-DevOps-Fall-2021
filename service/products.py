@@ -48,4 +48,7 @@ class ProductService():
         ProductModel.save_to_db(product_to_update)
         return ProductModel.serialize(product_to_update)
 
-    
+    def query_by_price(minimum, maximum):
+        products = ProductModel.query_by_price(minimum, maximum)
+        results = [ProductModel.serialize(product) for product in products]
+        return results

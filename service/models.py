@@ -80,5 +80,9 @@ class ProductModel(db.Model):
         product = cls.query.filter_by(id=id).first()
         return product
 
+    @classmethod
+    def query_by_price(cls, minimum, maximum):
+        return cls.query.filter(cls.price.between(minimum, maximum))    
+
 def init_db(app):
     ProductModel.init_db(app)
