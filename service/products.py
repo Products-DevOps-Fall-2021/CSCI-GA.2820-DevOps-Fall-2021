@@ -52,3 +52,16 @@ class ProductService():
         products = ProductModel.query_by_price(minimum, maximum)
         results = [ProductModel.serialize(product) for product in products]
         return results
+    
+    def increament_product_like(id):
+        product_to_update = ProductModel.find_by_id(id)
+        product_to_update.like=product_to_update.like+1
+        ProductModel.save_to_db(product_to_update)
+        return ProductModel.serialize(product_to_update)
+    
+    def decreament_product_like(id):
+        product_to_update = ProductModel.find_by_id(id)
+        product_to_update.like=product_to_update.like-1
+        ProductModel.save_to_db(product_to_update)
+        return ProductModel.serialize(product_to_update)
+    

@@ -8,14 +8,8 @@ from service.products import ProductService
 from service import app
 from service import status
 from flask import Flask, jsonify, request, url_for, make_response, abort, request
-# from flask_restplus  import reqparse
 import json
 import logging
-
-# parser = reqparse.RequestParser()
-# parser.add_argument('minimum', type=float, required=False, help='The minimum of the query price range')
-# parser.add_argument('maximum', type=float, required=False, help='The maximum of the query price range')
-# args = parser.parse_args()
 
 #root Home page
 @app.route("/",  methods=['GET'])
@@ -131,6 +125,34 @@ def update(id):
     else:
         return not_found("Product Id not found from database which needs to update")
     
+
+@app.route('/products/<int:id>/like',  methods=["PUT"])
+def increase_product_likes(id):
+    app.logger.info("Request to increase product likes...")
+    check_content_type("application/json")
+    product = ProductService.find_product_by_id(id)
+    if product :
+        output = ProductService.increament_product_like(id)
+    
+        response_code = status.HTTP_200_OK
+        return make_response(jsonify(output), response_code)    
+    else:
+        return not_found("Product Id not found from database which needs to update")
+
+@app.route('/products/<int:id>/dislike',  methods=["PUT"])
+def decrease_product_likes(id):
+    app.logger.info("Request to increase product likes...")
+    check_content_type("application/json")
+    product = ProductService.find_product_by_id(id)
+    if product :
+        output = ProductService.decreament_product_like(id)
+    
+        response_code = status.HTTP_200_OK
+        return make_response(jsonify(output), response_code)    
+    else:
+        return not_found("Product Id not found from database which needs to update")
+
+
 @app.route('/products/<int:id>', methods=['DELETE'])
 def delete(id):
     app.logger.info("Request to delete product...")

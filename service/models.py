@@ -15,6 +15,7 @@ class ProductModel(db.Model):
     description = db.Column(db.String(250), nullable=False)
     creation_date = db.Column(db.DateTime, default=datetime.utcnow)
     price = db.Column(db.Float, nullable = False)
+    like = db.Column(db.Integer, default=0)
 
     def __repr__(self):
         return '<Task %r>' %self.id
@@ -50,7 +51,8 @@ class ProductModel(db.Model):
             "name": self.name,
             "description": self.description,
             "creation_date": self.creation_date,
-            "price": self.price
+            "price": self.price,
+            "like" : self.like
         }
 
     def deserialize(self, data):
@@ -60,6 +62,8 @@ class ProductModel(db.Model):
             self.price = data["price"]
             self.id = data["id"]
             self.creation_date = data["creation_date"]
+            self.like = data["like"]
+
         except KeyError as error:
             raise DataValidationError(
                 "Invalid Product: missing " + error.args[0]
