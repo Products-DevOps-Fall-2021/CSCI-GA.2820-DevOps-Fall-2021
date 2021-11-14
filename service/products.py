@@ -47,5 +47,16 @@ class ProductService():
         
         ProductModel.save_to_db(product_to_update)
         return ProductModel.serialize(product_to_update)
-
+    
+    def increament_product_like(id):
+        product_to_update = ProductModel.find_by_id(id)
+        product_to_update.like=product_to_update.like+1
+        ProductModel.save_to_db(product_to_update)
+        return ProductModel.serialize(product_to_update)
+    
+    def decreament_product_like(id):
+        product_to_update = ProductModel.find_by_id(id)
+        product_to_update.like=product_to_update.like-1
+        ProductModel.save_to_db(product_to_update)
+        return ProductModel.serialize(product_to_update)
     
