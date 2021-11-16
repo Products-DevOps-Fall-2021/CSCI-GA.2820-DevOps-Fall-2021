@@ -182,7 +182,7 @@ def disable(id):
     if product :
 
         output = ProductService.disable_product(id)
-        output['notify'] = 'PRODUCT IS DISABLED'
+        output['notify'] = 'PRODUCT IS DISABLED AND WAREHOUSE AND SHOPPING CART SERVICE NOTIFIED'
         json_data =jsonify(output)
         response_code = status.HTTP_200_OK
         return make_response(json_data, response_code)    
@@ -198,7 +198,7 @@ def enable(id):
     if product :
 
         output = ProductService.enable_product(id)
-        output['notify'] = 'PRODUCT IS ENABLED'
+        output['notify'] = 'PRODUCT IS ENABLED AND WAREHOUSE AND SHOPPING CART SERVICE NOTIFIED'
         json_data =jsonify(output)
         
         response_code = status.HTTP_200_OK
