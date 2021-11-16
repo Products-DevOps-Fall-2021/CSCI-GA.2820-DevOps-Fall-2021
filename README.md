@@ -57,8 +57,11 @@ search [127.0.0.1:5000](http://127.0.0.1:5000/) on browser to access the website
 |              /           |   **GET**   |              The Name of Rest API service, the version and URL to list all products             |  HTTP_200_OK |
 |              /products              |   **GET**   |              Returns a list all of the products              | HTTP_200_OK |
 |           /products/{id}            |   **GET**   |             Returns the product with a given id in JSON format             | HTTP_200_OK |
+|              /products?minimum={min_price}&maximum={max_price}              |   **GET**   |              Returns a list all of the products whose price lay within minimum and maximum range             | HTTP_200_OK |
 |              /products              |  **POST**   | creates a new product with ID and creation date auto assigned by the Database and adds it to the products list | HTTP_201_CREATED |
 |           /products/{id}            |   **PUT**   | updates the product with given id with the credentials specified in the request |  HTTP_200_OK |
+|              /products/{id}/disable              |   **PUT**   |              Disables status of product (sets is_active to false)              | HTTP_200_OK |
+|              /products/{id}/enable              |   **PUT**   |              Re-enables status of product (sets is_active to true)              | HTTP_200_OK |
 |           /products/{id}            | **DELETE**  |           deletes a product record from the database           | HTTP_204_NO_CONTENT |
 
 ### Testing
