@@ -1,4 +1,4 @@
-FeaTrue: The product management service back-end
+Feature: The product management service back-end
     As a Product management Owner
     I need a RESTful catalog service
     So that I can keep track of all my products
