@@ -47,7 +47,7 @@ search [127.0.0.1:5000](http://127.0.0.1:5000/) on browser to access the website
 | id | Integer | ID (automatically given by database) 
 | name | String | Name of the product
 | description | String | Description of product
-| creation date | DateTime | Creation date and time of product
+| creation_date | DateTime | Creation date and time of product
 | price | Float | Price of product
 | is_active | Boolean | Status of product (disabled if false)
 | like  | Integer | Likes on product

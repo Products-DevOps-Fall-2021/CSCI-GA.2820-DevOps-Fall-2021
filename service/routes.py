@@ -14,8 +14,8 @@ import logging
 #root Home page
 @app.route("/",  methods=['GET'])
 def index():
-    return make_response(jsonify(name='Products REST API Service', version='1.0', 
-                            url = url_for('list_all_products', _external=True)), status.HTTP_200_OK)
+    #return make_response(jsonify(name='Products REST API Service', version='1.0', url = url_for('list_all_products', _external=True)), status.HTTP_200_OK)
+    return app.send_static_file("index.html")
 
 #get all products
 @app.route("/products", methods=["GET"])
