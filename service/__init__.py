@@ -5,7 +5,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import service.models as models
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templete')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db' #test.db = our database
 try:
     models.init_db(app)
