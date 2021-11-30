@@ -10,12 +10,18 @@ from service import status
 from flask import Flask, jsonify, request, url_for, make_response, abort, request
 import json
 import logging
+from flask import send_from_directory
 
 #root Home page
-@app.route("/",  methods=['GET'])
+@app.route("/")
 def index():
-    return make_response(jsonify(name='Products REST API Service', version='1.0', 
-                            url = url_for('list_all_products', _external=True)), status.HTTP_200_OK)
+    # return make_response(jsonify(name='Products REST API Service', version='1.0', url = url_for('list_all_products', _external=True)), status.HTTP_200_OK)
+    root_dir = os.path.dirname(os.getcwd())
+
+    print("*"*100, os.path.join(root_dir, 'service', 'static'))
+
+    return render_template("index.html")
+
 
 #get all products
 @app.route("/products", methods=["GET"])
