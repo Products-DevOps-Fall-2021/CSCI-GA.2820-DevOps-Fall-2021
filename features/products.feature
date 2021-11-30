@@ -39,4 +39,4 @@ Scenario: List all products
     And I press the "Search" button
     Then I should see "Flowers" in the results
     And I should see "Toys" in the results
-    And I should not see "Wafers" in the results
+    And I should see "Wafers" in the results
