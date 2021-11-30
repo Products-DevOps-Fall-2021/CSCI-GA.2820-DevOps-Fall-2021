@@ -152,6 +152,56 @@ $(function () {
     });
 
     // ****************************************
+    // Disable a Product
+    // ****************************************
+
+    $("#disable-btn").click(function () {
+
+        var product_id = $("#product_id").val();
+
+        var ajax = $.ajax({
+            type: "PUT",
+            url: "/products/" + product_id + "/disable",
+            contentType: "application/json",
+            data: '',
+        })
+
+        ajax.done(function(res){
+            clear_form_data()
+            flash_message("Product has been Disabled!")
+        });
+
+        ajax.fail(function(res){
+            flash_message("Server error!")
+        });
+    });
+
+    // ****************************************
+    // Enable a Product
+    // ****************************************
+
+    $("#enable-btn").click(function () {
+
+        var product_id = $("#product_id").val();
+
+        var ajax = $.ajax({
+            type: "PUT",
+            url: "/products/" + product_id + "/enable",
+            contentType: "application/json",
+            data: '',
+        })
+
+        ajax.done(function(res){
+            clear_form_data()
+            flash_message("Product has been Enabled!")
+        });
+
+        ajax.fail(function(res){
+            flash_message("Server error!")
+        });
+    });
+
+    // ****************************************
     // Clear the form
     // ****************************************
 
@@ -200,14 +250,17 @@ $(function () {
             $("#search_results").append('<table class="table-striped" cellpadding="10">');
             var header = '<tr>'
             header += '<th style="width:10%">ID</th>'
-            header += '<th style="width:40%">Name</th>'
-            header += '<th style="width:40%">Description</th>'
-            header += '<th style="width:10%">Price</th></tr>'
+            header += '<th style="width:20%">Name</th>'
+            header += '<th style="width:30%">Description</th>'
+            header += '<th style="width:20%">Creation Date</th>'
+            header += '<th style="width:10%">Price</th>'
+            header += '<th style="width:10%">Is Active</th>'
+            header += '<th style="width:10%">Likes</th></tr>'
             $("#search_results").append(header);
             var firstProduct = "";
             for(var i = 0; i < res.length; i++) {
                 var product = res[i];
-                var row = "<tr><td>"+product.id+"</td><td>"+product.name+"</td><td>"+product.description+"</td><td>"+product.price+"</td></tr>";
+                var row = "<tr><td>"+product.id+"</td><td>"+product.name+"</td><td>"+product.description+"</td><td>"+product.creation_date+"</td><td>"+product.price+"</td><td>"+product.is_active+"</td><td>"+product.like+"</td></tr>";
                 $("#search_results").append(row);
                 if (i == 0) {
                     firstProduct = product;
