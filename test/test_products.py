@@ -55,12 +55,19 @@ class TestProducts(unittest.TestCase):
     def test_create_product_success(self):
         ProductService.create_product("Demo", 35, "Demo Description")        
 
-    def test_sucess_find_product_by_id(self):
+    def test_success_find_product_by_id(self):
         data = ProductService.create_product("Demo", 35, "Description")
-        self.assertEqual(len(ProductService.find_product_by_id(data['id']))>0, True)       
+        self.assertEqual(len(ProductService.find_product_by_id(data['id']))>0, True) 
+
+    def test_success_find_product_by_name(self):
+        data = ProductService.create_product("Demo_Name", 35, "Description")
+        self.assertEqual(len(ProductService.find_product_by_name(data['name']))>0, True)      
         
     def test_failure_find_product_by_id(self):
         self.assertEqual(ProductService.find_product_by_id(-1), None)
+
+    def test_failure_find_product_by_name(self):
+        self.assertEqual(len(ProductService.find_product_by_name(-1))==0, True)
 
     def test_update_product_success(self):
         data = ProductService.create_product("Demo", 35, "Description")

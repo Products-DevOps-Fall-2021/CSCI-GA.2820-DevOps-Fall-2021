@@ -410,6 +410,16 @@ class TestProductServer(unittest.TestCase):
             
         )
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+    
+    def test_list_products_by_name(self):
+        """List the products by given name"""
+        self._create_products(5)
+        resp = self.app.get("/products?name=Flowers")
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        print(data)
+        for d in data:
+            self.assertEqual(d['name'], "Flowers")
 
     def test_list_products_by_price_range(self):
         """List the products in the given price range"""

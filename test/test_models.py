@@ -107,7 +107,12 @@ class TestModels(unittest.TestCase):
         self.assertEqual(ProductModel.save_to_db(test_product), None)
         self.assertEqual(ProductModel.find_by_id(test_product.id).id, test_product.id)
 
-
+    def test_find_by_name_success(self):
+        test_product = ProductModel(name = "Demo_Name", price = 35, description = "Description")
+        self.assertEqual(ProductModel.save_to_db(test_product), None)
+        products = ProductModel.find_by_name(test_product.name)
+        for product in products:
+            self.assertEqual(product.name, test_product.name)
     
 
 if __name__ == '__main__':

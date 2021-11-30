@@ -31,6 +31,11 @@ class ProductService():
             return None
         return ProductModel.serialize(product)
 
+    def find_product_by_name(name):
+        products = ProductModel.find_by_name(name)
+        results = [ProductModel.serialize(product) for product in products]
+        return results
+
     def update_product(id, name , price, description):
         
         if type(id) != type(-1):

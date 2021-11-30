@@ -15,7 +15,7 @@ Scenario: The server is running
     Then I should see "Products REST API Service" in the title
     And I should not see "404 Not Found"
 
-Scenario: Create a Pet
+Scenario: Create a Product
     When I visit the "Home Page"
     And I set the "Name" to "Burger King"
     And I set the "Description" to "Very good food"
@@ -40,3 +40,12 @@ Scenario: List all products
     Then I should see "Flowers" in the results
     And I should see "Toys" in the results
     And I should see "Wafers" in the results
+    And I should not see "Olives" in the results
+
+Scenario: Search all products with name Toys
+    When I visit the "Home Page"
+    And I set the "Name" to "Toys"
+    And I press the "Search" button
+    Then I should see "Toys" in the results
+    And I should not see "Flowers" in the results
+    And I should not see "Olive" in the results
