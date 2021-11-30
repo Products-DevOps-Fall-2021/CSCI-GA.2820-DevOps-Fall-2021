@@ -26,9 +26,16 @@ def index():
 #get all products
 @app.route("/products", methods=["GET"])
 def list_all_products(): 
+    name = request.args.get('name')
     minimum = request.args.get('minimum')
     maximum = request.args.get('maximum')
-    if minimum or maximum:
+    if name:
+        app.logger.info("Find by name: %s", name)
+        products = ProductService.find_product_by_name(name)
+        return make_response(
+            jsonify(products), status.HTTP_200_OK
+        )
+    elif minimum or maximum:
         try:
             min_price = float(minimum)
         except:

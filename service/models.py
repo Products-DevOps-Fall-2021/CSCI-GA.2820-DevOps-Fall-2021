@@ -79,8 +79,7 @@ class ProductModel(db.Model):
 
     @classmethod        
     def find_by_name(cls,name):
-        product = cls.query.filter_by(name=name).first()
-        return product
+        return cls.query.filter_by(name=name).all()
         
     @classmethod        
     def find_by_id(cls,id):
