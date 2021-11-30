@@ -49,3 +49,20 @@ Scenario: Search all products with name Toys
     Then I should see "Toys" in the results
     And I should not see "Flowers" in the results
     And I should not see "Olive" in the results
+
+Scenario: Delete all products with name Toys
+    When I visit the "Home Page"
+    And I set the "Name" to "Fevicol"
+    And I set the "Description" to "strong adhesive"
+    And I set the "Price" to "2.99"
+    And I press the "Create" button
+    Then I should see the message "Success"
+    When I copy the "Id" field
+    And I press the "Clear" button
+    Then the "Id" field should be empty
+    And the "Name" field should be empty
+    And the "Description" field should be empty
+    And the "Price" field should be empty
+    When I paste the "Id" field
+    And I press the "Delete" button
+    Then I should not see "Fevicol" in the results
