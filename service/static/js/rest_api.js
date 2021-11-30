@@ -10,8 +10,8 @@ $(function () {
         $("#product_name").val(res.name);
         $("#product_description").val(res.description);
         $("#product_price").val(res.price);
-        $("#product_minimum").val(res.minimum);
-        $("#product_maximum").val(res.maximum);
+        $("#product_minimum_price").val(res.minimum_price);
+        $("#product_maximum_price").val(res.maximum_price);
     }
 
     /// Clears all form fields
@@ -19,8 +19,8 @@ $(function () {
         $("#product_name").val("");
         $("#product_description").val("");
         $("#product_price").val("");
-        $("#product_minimum").val("");
-        $("#product_maximum").val("");
+        $("#product_minimum_price").val("");
+        $("#product_maximum_price").val("");
     }
 
     // Updates the flash message area
@@ -167,8 +167,8 @@ $(function () {
     $("#search-btn").click(function () {
 
         var name = $("#product_name").val();
-        var minimum = $("#product_minimum").val();
-        var maximum = $("#product_maximum").val();
+        var minimum = $("#product_minimum_price").val();
+        var maximum = $("#product_maximum_price").val();
 
         var queryString = ""
 

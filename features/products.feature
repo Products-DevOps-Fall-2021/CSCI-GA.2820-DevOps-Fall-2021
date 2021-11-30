@@ -50,6 +50,15 @@ Scenario: Search all products with name Toys
     And I should not see "Flowers" in the results
     And I should not see "Olive" in the results
 
+Scenario: Search all products within given price range
+    When I visit the "Home Page"
+    And I set the "Minimum Price" to "4.00"
+    And I set the "Maximum Price" to "10.00"
+    And I press the "Search" button
+    Then I should see "Toys" in the results
+    And I should see "Wafer" in the results
+    And I should not see "Flowers" in the results
+
 Scenario: Delete all products with name Toys
     When I visit the "Home Page"
     And I set the "Name" to "Fevicol"
