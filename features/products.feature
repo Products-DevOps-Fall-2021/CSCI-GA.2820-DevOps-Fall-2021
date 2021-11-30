@@ -66,3 +66,22 @@ Scenario: Delete all products with name Toys
     When I paste the "Id" field
     And I press the "Delete" button
     Then I should not see "Fevicol" in the results
+
+Scenario: Update a Product
+    When I visit the "Home Page"
+    And I set the "Name" to "Wafers"
+    And I press the "Search" button
+    Then I should see "Wafers" in the "Name" field
+    And I should see "5.99" in the "Price" field
+    When I change "Name" to "cycle"
+    And I press the "Update" button
+    Then I should see the message "Success"
+    When I copy the "Id" field
+    And I press the "Clear" button
+    And I paste the "Id" field
+    And I press the "Retrieve" button
+    Then I should see "cycle" in the "Name" field
+    When I press the "Clear" button
+    And I press the "Search" button
+    Then I should see "cycle" in the results
+    Then I should not see "Wafers" in the results
