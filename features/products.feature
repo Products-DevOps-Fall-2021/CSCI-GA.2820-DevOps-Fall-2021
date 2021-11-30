@@ -103,3 +103,11 @@ Scenario: Retreive a product
     And I should see "Good Showpiece" in the "Description" field
     And I should see "19.99" in the "Price" field
 
+
+Scenario: Action endpoint for disabling a product
+    When I visit the "Home Page"
+    And I set the "Id" to "1"
+    And I press the "Disable" button
+    And I press the "Search" button
+    Then I should see "false" in the results
+
