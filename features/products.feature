@@ -85,3 +85,12 @@ Scenario: Update a Product
     And I press the "Search" button
     Then I should see "cycle" in the results
     Then I should not see "Wafers" in the results
+
+Scenario: Retreive a product
+    When I visit the "Home Page"
+    And I set the "Id" to "1"
+    And I press the "Retrieve" button
+    Then I should see "Flowers" in the "Name" field
+    And I should see "Good Showpiece" in the "Description" field
+    And I should see "19.99" in the "Price" field
+
