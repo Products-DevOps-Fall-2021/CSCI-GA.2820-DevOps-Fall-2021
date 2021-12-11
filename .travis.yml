@@ -21,7 +21,7 @@ env:
 install: 
   - pip install -r requirements.txt
 
-# command to run tests
+# command to run test
 jobs:
   include:
     - stage: Test
