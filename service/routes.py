@@ -62,8 +62,8 @@ product_model = api.inherit(
                             description='The unique id assigned internally by service'),
         'like': fields.Integer(readOnly=False, 
                             description='Number of likes of a product'),
-        #'is_active': fields.Boolean(readOnly=True,
-                            #description='The product is active or not')
+        'is_active': fields.Boolean(readOnly=True,
+                            description='The product is active or not')
         
     }
 ) 
@@ -148,13 +148,18 @@ class ProductCollection(Resource):
         app.logger.info('Request to Create a Product')
         record = json.loads(request.data)
         app.logger.info(record)
-        product_name = record['name']
-        product_price = record['price']
-        description = record['description']
-        output = ProductService.create_product(product_name, product_price, description)
-        app.logger.info(output)
-        location_url = api.url_for(ProductResource, id=output['id'], _external=True)
-        return output, status.HTTP_201_CREATED, {'Location': location_url}
+        if 'name' in record and 'price' in record and 'description' in record:
+            product_name = record['name']
+            product_price = record['price']
+            description = record['description']
+            output = ProductService.create_product(product_name, product_price, description)      
+            app.logger.info(output)
+            location_url = api.url_for(ProductResource, id=output['id'], _external=True)
+            return output, status.HTTP_201_CREATED, {'Location': location_url}
+        else:
+            abort(status.HTTP_400_BAD_REQUEST, 
+            "Provide name, price and description to add a new product.")
+        
 
 
 ######################################################################
@@ -276,7 +281,6 @@ class ProductDisLike(Resource):
         This endpoint decreases the likes
         """
         app.logger.info("Request to decrease product likes...")
-        check_content_type("application/json")
         product = ProductModel.find_by_id(id)
         if product:
             product.like=product.like-1
@@ -302,13 +306,11 @@ class ProductDisable(Resource):
         This endpoint disables the product
         """
         app.logger.info("Request to disable the product...")
-        product = ProductService.find_product_by_id(id)
+        product = ProductModel.find_by_id(id)
         if product:
             output = ProductService.disable_product(id)
-            output['notify'] = 'PRODUCT IS DISABLED AND WAREHOUSE AND SHOPPING CART SERVICE NOTIFIED'
-            json_data =jsonify(output)
             response_code = status.HTTP_200_OK
-            return json_data, response_code  
+            return output, response_code  
         else:
             abort(status.HTTP_404_NOT_FOUND, "Product with id '{}' was not found.".format(id))
 
@@ -331,10 +333,8 @@ class ProductEnable(Resource):
         product = ProductService.find_product_by_id(id)
         if product:
             output = ProductService.enable_product(id)
-            output['notify'] = 'PRODUCT IS ENABLED AND WAREHOUSE AND SHOPPING CART SERVICE NOTIFIED'
-            json_data =jsonify(output)     
             response_code = status.HTTP_200_OK
-            return json_data, response_code
+            return output, response_code
         else:
             abort(status.HTTP_404_NOT_FOUND, "Product with id '{}' was not found.".format(id))
 
