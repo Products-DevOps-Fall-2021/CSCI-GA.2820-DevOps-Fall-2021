@@ -366,6 +366,5 @@ def check_content_type(content_type):
 #pending 
 # error handling - this file and test file
 # execute nosetests
-# UI not working  
-# messages, 404 and other text updates
-# check dislike, enable and disable
+# UI - SEARCH Button is not working  
+# messages, 404 and other text updates, other logic updates in this file

@@ -100,7 +100,7 @@ class TestProducts(unittest.TestCase):
     def test_disable_product_success(self):
         data = ProductService.create_product("Demo", 35, "Description")
         self.assertEqual(len(data)>0, True)
-        self.assertEqual(len(ProductService.disable_product(data['id']))>0, True)
+        self.assertNotEqual(ProductService.disable_product(data['id']), None)
         
     def test_disable_product_failure(self):
         self.assertEqual(ProductService.disable_product(-1), None)
@@ -108,7 +108,7 @@ class TestProducts(unittest.TestCase):
     def test_enable_product_success(self):
         data = ProductService.create_product("Demo", 35, "Description")
         self.assertEqual(len(data)>0, True)
-        self.assertEqual(len(ProductService.enable_product(data['id']))>0, True)
+        self.assertNotEqual(ProductService.enable_product(data['id']), None)
         
     def test_enable_product_failure(self):
         self.assertEqual(ProductService.enable_product(-1), None)
