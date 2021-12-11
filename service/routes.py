@@ -124,6 +124,20 @@ class ProductCollection(Resource):
             app.logger.info('Filtering by name: %s', product_name)
             products = ProductService.find_product_by_name(product_name)
         elif minimum_price or maximum_price:
+            try:
+                float(minimum_price)
+            except:
+                abort(status.HTTP_400_BAD_REQUEST, 
+                "Minimum price is required and needs to be a numeric.")
+            if float(minimum_price) < 0:
+                abort(status.HTTP_400_BAD_REQUEST,
+                "Minimum price cannot be less than zero.")
+            try:
+                float(maximum_price)
+            except:
+                abort(status.HTTP_400_BAD_REQUEST, "Maximum price is required and needs to be a numeric.") 
+            if float(maximum_price)<0:
+                abort(status.HTTP_400_BAD_REQUEST, "Maximum price cannot be less than zero.")
             app.logger.info("Request to list all products in the given range") 
             products = ProductService.query_by_price(minimum_price, maximum_price)
         else:
@@ -146,12 +160,24 @@ class ProductCollection(Resource):
         This endpoint will create a Product based the data in the body that is posted
         """
         app.logger.info('Request to Create a Product')
+        check_content_type("application/json")
         record = json.loads(request.data)
         app.logger.info(record)
         if 'name' in record and 'price' in record and 'description' in record:
             product_name = record['name']
             product_price = record['price']
             description = record['description']
+            if len(product_name) > 100:
+                abort(status.HTTP_400_BAD_REQUEST, "Product name max limit 100 characters")
+            if len(description)>250:
+                abort(status.HTTP_400_BAD_REQUEST, "Product description max limit 250 characters")
+            try:
+                float(product_price)
+            except:
+                abort(status.HTTP_400_BAD_REQUEST, "Product price is required and needs to be a numeric") 
+            if float(product_price)<0:
+                abort(status.HTTP_400_BAD_REQUEST, "Product price cannot be less than zero.")
+
             output = ProductService.create_product(product_name, product_price, description)      
             app.logger.info(output)
             location_url = api.url_for(ProductResource, id=output['id'], _external=True)
@@ -209,15 +235,26 @@ class ProductResource(Resource):
         This endpoint will update a Product based the body that is posted
         """
         app.logger.info("Request to Update product...")
+        check_content_type("application/json")
         product = ProductModel.find_by_id(id)
         if product:
             data = request.get_json()
-            if 'name' in data:      
+            if 'name' in data:                  
+                if len(data['name']) > 100:
+                    abort(status.HTTP_400_BAD_REQUEST, "Product name max limit 100 characters")
                 product.name = data['name']
             if 'price' in data:
+                try:
+                    float(data['price'])
+                except:
+                    abort(status.HTTP_400_BAD_REQUEST, "Product price is required and needs to be a numeric") 
+                if float(data['price'])<0:
+                    abort(status.HTTP_400_BAD_REQUEST, "Product price cannot be less than zero.")
                 product.price = data['price']
             if 'description' in data:
-                product.description = data['description']
+                if len(data['description'])>250:
+                    abort(status.HTTP_400_BAD_REQUEST, "Product description max limit 250 characters")
+                product.description = data['description']                              
             ProductModel.save_to_db(product)
             return product, status.HTTP_200_OK
         else:
@@ -363,8 +400,4 @@ def check_content_type(content_type):
         abort(415, 'Content-Type must be {}'.format(content_type))
 
 
-#pending 
-# error handling - this file and test file
-# execute nosetests
-# UI - SEARCH Button is not working  
-# messages, 404 and other text updates, other logic updates in this file
+
