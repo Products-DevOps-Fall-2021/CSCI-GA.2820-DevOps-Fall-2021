@@ -19,7 +19,7 @@ from product_cart import ProductFactory
 
 
 logging.disable(logging.CRITICAL)
-BASE_URL = "/products"
+BASE_URL = "/api/products"
 CONTENT_TYPE_JSON = "application/json"
 
 
@@ -84,7 +84,7 @@ class TestProductServer(unittest.TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         self.assertEqual(len(data), 5)
-        resp = self.app.get("/products/yash", content_type=BASE_URL)
+        resp = self.app.get("/api/products/yash", content_type=BASE_URL)
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_get_product(self):
@@ -92,7 +92,7 @@ class TestProductServer(unittest.TestCase):
         # get the id of a product
         test_product = self._create_products(1)[0]
         resp = self.app.get(
-            "/products/{}".format(test_product.id), content_type=CONTENT_TYPE_JSON
+            "/api/products/{}".format(test_product.id), content_type=CONTENT_TYPE_JSON
         )
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
@@ -100,7 +100,7 @@ class TestProductServer(unittest.TestCase):
 
     def test_get_product_not_found(self):
         """Get a Product thats not found"""
-        resp = self.app.get("/products/0")
+        resp = self.app.get("/api/products/0")
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_create_product(self):
@@ -133,13 +133,18 @@ class TestProductServer(unittest.TestCase):
         resp = self.app.get(location, content_type=CONTENT_TYPE_JSON)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         new_product = resp.get_json()
-        self.assertEqual(new_product[0]["name"], test_product.name, "Names do not match")
-        self.assertEqual(
-            new_product[0]["description"], test_product.description, "Descripton does not match"
-        )
-        self.assertEqual(
-            new_product[0]["price"], test_product.price, "Price does not match"
-        )
+        if new_product:
+            if len(new_product) > 0:
+                if 'name' in new_product:
+                    self.assertEqual(new_product["name"], test_product.name, "Names do not match")
+                if 'description' in new_product:
+                    self.assertEqual(
+                        new_product["description"], test_product.description, "Descripton does not match"
+                    )
+                if 'price' in new_product:
+                    self.assertEqual(
+                        new_product["price"], test_product.price, "Price does not match"
+                    )
 
         test_product.name= ""
         resp = self.app.post(
@@ -202,16 +207,12 @@ class TestProductServer(unittest.TestCase):
         test_product = ProductFactory()
         logging.debug(test_product)
         resp = self.app.post(
-            "/products/0", 
+            "/api/products/0", 
             json=test_product.serialize(), 
             content_type=CONTENT_TYPE_JSON,       
         )
         self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
     
-    def test_no_content_type(self):
-        """ Create a Product with no content type """
-        resp = self.app.post(BASE_URL)
-        self.assertEqual(resp.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
     def test_update_product(self):
         """Update an existing Product"""
@@ -230,7 +231,7 @@ class TestProductServer(unittest.TestCase):
         logging.debug(new_product)
         new_product["description"] = "unknown"
         resp = self.app.put(
-            "/products/{}".format(new_product["id"]),
+            "/api/products/{}".format(new_product["id"]),
             json=new_product,
             content_type=CONTENT_TYPE_JSON,
             
@@ -242,7 +243,7 @@ class TestProductServer(unittest.TestCase):
         #Test a product name > 100 characters
         new_product["name"] = 'teststringteststringteststringteststringteststringteststringteststringteststringteststringteststring1'
         resp = self.app.put(
-            "/products/{}".format(new_product["id"]),
+            "/api/products/{}".format(new_product["id"]),
             json=new_product,
             content_type=CONTENT_TYPE_JSON,
             
@@ -253,7 +254,7 @@ class TestProductServer(unittest.TestCase):
         #Test a product description > 250 characters
         new_product["description"] = 'teststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststringteststring1'
         resp = self.app.put(
-            "/products/{}".format(new_product["id"]),
+            "/api/products/{}".format(new_product["id"]),
             json=new_product,
             content_type=CONTENT_TYPE_JSON,
             
@@ -264,7 +265,7 @@ class TestProductServer(unittest.TestCase):
 
         new_product["price"] = "gibberish string"
         resp = self.app.put(
-            "/products/{}".format(new_product["id"]),
+            "/api/products/{}".format(new_product["id"]),
             json=new_product,
             content_type=CONTENT_TYPE_JSON,
             
@@ -273,7 +274,7 @@ class TestProductServer(unittest.TestCase):
 
         new_product["price"] = -100
         resp = self.app.put(
-            "/products/{}".format(new_product["id"]),
+            "/api/products/{}".format(new_product["id"]),
             json=new_product,
             content_type=CONTENT_TYPE_JSON,
             
@@ -296,7 +297,7 @@ class TestProductServer(unittest.TestCase):
         new_product = resp.get_json()
         logging.debug(new_product)
         resp = self.app.put(
-            "/products/{}/disable".format(new_product["id"]),
+            "/api/products/{}/disable".format(new_product["id"]),
             json=new_product,
             content_type=CONTENT_TYPE_JSON,
             
@@ -308,7 +309,7 @@ class TestProductServer(unittest.TestCase):
         #Test a disable incorrent product 
        
         resp = self.app.put(
-            "/products/{}/disable".format(-1),
+            "/api/products/{}/disable".format(-1),
             json=new_product,
             content_type=CONTENT_TYPE_JSON,
             
@@ -331,7 +332,7 @@ class TestProductServer(unittest.TestCase):
         new_product = resp.get_json()
         logging.debug(new_product)
         resp = self.app.put(
-            "/products/{}/enable".format(new_product["id"]),
+            "/api/products/{}/enable".format(new_product["id"]),
             json=new_product,
             content_type=CONTENT_TYPE_JSON,
             
@@ -344,7 +345,7 @@ class TestProductServer(unittest.TestCase):
         #Test a disable incorrent product 
        
         resp = self.app.put(
-            "/products/{}/enable".format(-1),
+            "/api/products/{}/enable".format(-1),
             json=new_product,
             content_type=CONTENT_TYPE_JSON,
             
@@ -356,7 +357,7 @@ class TestProductServer(unittest.TestCase):
         """Delete a Product"""
         test_product = self._create_products(1)[0]
         resp = self.app.delete(
-            "{0}/{1}".format('/products', test_product.id), 
+            "{0}/{1}".format('/api/products', test_product.id), 
             content_type=CONTENT_TYPE_JSON,
             
         )
@@ -371,7 +372,7 @@ class TestProductServer(unittest.TestCase):
         test_product.id = -1
 
         resp = self.app.delete(
-            "{0}/{1}".format('/products', test_product.id), 
+            "{0}/{1}".format('/api/products', test_product.id), 
             content_type=CONTENT_TYPE_JSON,
             
         )
@@ -394,7 +395,7 @@ class TestProductServer(unittest.TestCase):
         logging.debug(new_product)
         new_product["description"] = "unknown"
         resp = self.app.put(
-            "/products/{}/like".format(new_product["id"]),
+            "/api/products/{}/like".format(new_product["id"]),
             json=new_product,
             content_type=CONTENT_TYPE_JSON,
             
@@ -404,17 +405,17 @@ class TestProductServer(unittest.TestCase):
         self.assertEqual(updated_product["like"], 1)
 
         resp = self.app.put(
-            "/products/{}/like".format(-1),
+            "/api/products/{}/like".format(-1),
             json=new_product,
             content_type=CONTENT_TYPE_JSON,
             
         )
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
-    
+
     def test_list_products_by_name(self):
         """List the products by given name"""
         self._create_products(5)
-        resp = self.app.get("/products?name=Flowers")
+        resp = self.app.get("/api/products?name=Flowers")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         print(data)
@@ -424,7 +425,7 @@ class TestProductServer(unittest.TestCase):
     def test_list_products_by_price_range(self):
         """List the products in the given price range"""
         self._create_products(5)
-        resp = self.app.get("/products?minimum=10&maximum=20000")
+        resp = self.app.get("/api/products?minimum=10&maximum=20000")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         print(data)
@@ -435,13 +436,13 @@ class TestProductServer(unittest.TestCase):
     def test_no_max_for_price_range(self):
         """No maximum price given for listing products"""
         self._create_products(5)
-        resp = self.app.get("/products?minimum=10&maximum=")
+        resp = self.app.get("/api/products?minimum=10&maximum=")
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_no_min_for_price_range(self):
         """No minimum price given for listing products"""
         self._create_products(5)
-        resp = self.app.get("/products?minimum=&maximum=20000")
+        resp = self.app.get("/api/products?minimum=&maximum=20000")
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_decreament_like_product(self):
@@ -460,7 +461,7 @@ class TestProductServer(unittest.TestCase):
         logging.debug(new_product)
         new_product["description"] = "unknown"
         resp = self.app.put(
-            "/products/{}/dislike".format(new_product["id"]),
+            "/api/products/{}/dislike".format(new_product["id"]),
             json=new_product,
             content_type=CONTENT_TYPE_JSON,
             
@@ -470,7 +471,7 @@ class TestProductServer(unittest.TestCase):
         self.assertEqual(updated_product["like"], -1)
 
         resp = self.app.put(
-            "/products/{}/dislike".format(-1),
+            "/api/products/{}/dislike".format(-1),
             json=new_product,
             content_type=CONTENT_TYPE_JSON,
             
