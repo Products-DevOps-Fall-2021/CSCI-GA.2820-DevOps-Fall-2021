@@ -169,6 +169,10 @@ class ProductCollection(Resource):
             description = record['description']
             if len(product_name) > 100:
                 abort(status.HTTP_400_BAD_REQUEST, "Product name max limit 100 characters")
+            if len(product_name) == 0:
+                abort(status.HTTP_400_BAD_REQUEST, "Product name should be present.")
+            if len(description) == 0:
+                abort(status.HTTP_400_BAD_REQUEST, "Product description should be present.")  
             if len(description)>250:
                 abort(status.HTTP_400_BAD_REQUEST, "Product description max limit 250 characters")
             try:
@@ -273,6 +277,8 @@ class ProductResource(Resource):
         """
         app.logger.info("Request to delete product...")
         output = ProductService.delete_product(id)
+        if output is None:
+            abort(status.HTTP_404_NOT_FOUND, "Product with id '{}' was not found.".format(id))
         response_code = status.HTTP_204_NO_CONTENT
         app.logger.info('Product with id [%s] was deleted', id)
         return '', response_code
