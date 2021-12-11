@@ -1,3 +1,4 @@
+#File is not used anymore due to errors on Travis CI, please see .github/workflows for yml files to run build
 sudo: required
 
 language: python
