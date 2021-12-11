@@ -1,7 +1,7 @@
 # products
 
 [![TDD Tests](https://github.com/products-devops-fall-21/products/actions/workflows/tdd-tests.yml/badge.svg)](https://github.com/products-devops-fall-21/products/actions/workflows/tdd-tests.yml)
-[![BDD Tests](https://github.com/products-devops-fall-21/products/actions/workflows/bdd-tests.yml/badge.svg)](https://github.com/products-devops-fall-21/products/actions/workflows/bdd-tests.yml))
+[![BDD Tests](https://github.com/products-devops-fall-21/products/actions/workflows/bdd-tests.yml/badge.svg)](https://github.com/products-devops-fall-21/products/actions/workflows/bdd-tests.yml)
 
 <!-- [![Build Status](https://app.travis-ci.com/products-devops-fall-21/products.svg?branch=main)](https://app.travis-ci.com/products-devops-fall-21/products) -->
 [![codecov](https://codecov.io/gh/products-devops-fall-21/products/branch/main/graph/badge.svg?token=B6SCHVQSB5)](https://codecov.io/gh/products-devops-fall-21/products)
