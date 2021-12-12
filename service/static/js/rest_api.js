@@ -47,7 +47,7 @@ $(function () {
 
         var ajax = $.ajax({
             type: "POST",
-            url: "/api/products",
+            url: "/products",
             contentType: "application/json",
             data: JSON.stringify(data),
         });
@@ -239,7 +239,7 @@ $(function () {
 
         var ajax = $.ajax({
             type: "GET",
-            url: "/api/products?" + queryString,
+            url: "/products?" + queryString,
             contentType: "application/json",
             data: ''
         })
