@@ -1,8 +1,8 @@
 # products
 
-[![TDD Tests](https://github.com/products-devops-fall-21/products/actions/workflows/tdd-tests.yml/badge.svg)](https://github.com/products-devops-fall-21/products/actions/workflows/tdd-tests.yml)
-[![BDD Tests](https://github.com/products-devops-fall-21/products/actions/workflows/bdd-tests.yml/badge.svg)](https://github.com/products-devops-fall-21/products/actions/workflows/bdd-tests.yml)
-[![codecov](https://codecov.io/gh/products-devops-fall-21/products/branch/main/graph/badge.svg?token=B6SCHVQSB5)](https://codecov.io/gh/products-devops-fall-21/products)
+[![TDD Tests](https://github.com/products-devops-fall-21/products/actions/workflows/tdd-tests.yml/badge.svg?branch=req6)](https://github.com/products-devops-fall-21/products/actions/workflows/tdd-tests.yml)
+[![BDD Tests](https://github.com/products-devops-fall-21/products/actions/workflows/bdd-tests.yml/badge.svg?branch=req6)](https://github.com/products-devops-fall-21/products/actions/workflows/bdd-tests.yml)
+[![codecov](https://codecov.io/gh/products-devops-fall-21/products/branch/main/graph/badge.svg?token=B6SCHVQSB5&branch=req6)](https://codecov.io/gh/products-devops-fall-21/products)
 
 ### Setting up the development environment
 Install [Git](http://git-scm.com/downloads) for using bash commands.
