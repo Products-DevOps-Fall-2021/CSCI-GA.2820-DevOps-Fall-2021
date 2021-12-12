@@ -1,3 +1,5 @@
+#This file will not be used anymore due to Travis CI error
+#please see .github/workflows for yml files that use GitHub actions
 sudo: required
 
 language: python
