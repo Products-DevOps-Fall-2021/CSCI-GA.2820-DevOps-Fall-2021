@@ -1,0 +1,6 @@
+# .coveragerc
+[run]
+source=services
+
+[report]
+show_missing = True
