@@ -3,7 +3,6 @@ from flask import Flask, render_template, url_for, make_response
 from werkzeug.exceptions import BadRequest
 from werkzeug.utils import redirect
 from flask.globals import request
-from service.error_handler import  bad_request, request_validation_error, not_found
 from service.products import ProductService
 from service.models import DataValidationError, ProductModel
 from service import app
