@@ -61,4 +61,3 @@ toml==0.10.2
 urllib3==1.26.7
 Werkzeug==1.0.1
 wrapt==1.13.2
-flask-restplus==0.13.0
