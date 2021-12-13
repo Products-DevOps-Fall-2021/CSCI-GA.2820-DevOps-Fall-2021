@@ -69,6 +69,11 @@ product_model = api.inherit(
     }
 ) 
 
+# query string arguments
+product_args = reqparse.RequestParser()
+product_args.add_argument('name', type=str, required=False, help='List Products by name')
+product_args.add_argument('minimum', type=int, required=False, help='Minimum Price of the product')
+product_args.add_argument('maximum', type=int, required=False, help='Maximum Price of the product')
 
 ######################################################################
 # Special Error Handlers
@@ -95,6 +100,7 @@ class ProductCollection(Resource):
     # LIST ALL PRODUCTS
     #------------------------------------------------------------------
     @api.doc('list_products')
+    @api.expect(product_args, validate=True)
     @api.marshal_list_with(product_model)
     def get(self):
         """ Returns all of the Products """
@@ -102,7 +108,6 @@ class ProductCollection(Resource):
         product_name = request.args.get("name")
         minimum_price = request.args.get("minimum")
         maximum_price = request.args.get("maximum")
-        
         products = []     
         
         if product_name:
