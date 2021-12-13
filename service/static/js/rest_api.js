@@ -47,7 +47,7 @@ $(function () {
 
         var ajax = $.ajax({
             type: "POST",
-            url: "/api/products",
+            url: "/products",
             contentType: "application/json",
             data: JSON.stringify(data),
         });
@@ -82,7 +82,7 @@ $(function () {
 
         var ajax = $.ajax({
                 type: "PUT",
-                url: "/api/products/" + product_id,
+                url: "/products/" + product_id,
                 contentType: "application/json",
                 data: JSON.stringify(data)
             })
@@ -108,7 +108,7 @@ $(function () {
 
         var ajax = $.ajax({
             type: "GET",
-            url: "/api/products/" + product_id,
+            url: "/products/" + product_id,
             contentType: "application/json",
             data: ''
         })
@@ -136,7 +136,7 @@ $(function () {
 
         var ajax = $.ajax({
             type: "DELETE",
-            url: "/api/products/" + product_id,
+            url: "/products/" + product_id,
             contentType: "application/json",
             data: '',
         })
@@ -161,7 +161,7 @@ $(function () {
 
         var ajax = $.ajax({
             type: "PUT",
-            url: "/api/products/" + product_id + "/disable",
+            url: "/products/" + product_id + "/disable",
             contentType: "application/json",
             data: '',
         })
@@ -186,7 +186,7 @@ $(function () {
 
         var ajax = $.ajax({
             type: "PUT",
-            url: "/api/products/" + product_id + "/enable",
+            url: "/products/" + product_id + "/enable",
             contentType: "application/json",
             data: '',
         })
@@ -239,8 +239,7 @@ $(function () {
 
         var ajax = $.ajax({
             type: "GET",
-            url: "/api/products?" + queryString,
-            contentType: "application/json",
+            url: "/products?" + queryString,
             data: ''
         })
 
