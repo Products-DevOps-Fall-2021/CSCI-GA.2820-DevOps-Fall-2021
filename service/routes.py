@@ -71,8 +71,8 @@ product_model = api.inherit(
 # query string arguments
 product_args = reqparse.RequestParser()
 product_args.add_argument('name', type=str, required=False, help='List Products by name')
-product_args.add_argument('minimum', type=int, required=False, help='Minimum Price of the product')
-product_args.add_argument('maximum', type=int, required=False, help='Maximum Price of the product')
+product_args.add_argument('minimum', type=float, required=False, help='Minimum Price of the product')
+product_args.add_argument('maximum', type=float, required=False, help='Maximum Price of the product')
 
 ######################################################################
 # Special Error Handlers
