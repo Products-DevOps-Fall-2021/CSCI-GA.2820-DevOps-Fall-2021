@@ -36,8 +36,7 @@ api = Api(app,
           title='Product Demo REST API Service',
           description='This is a sample server Product store server.',
           default='products',
-          doc='/apidocs', # default also could use doc='/apidocs/'
-          prefix='/api'
+          doc='/apidocs'
          )
 
 
@@ -58,23 +57,17 @@ product_model = api.inherit(
     'ProductModel', 
     create_model,
     {
-        'id': fields.Integer(readOnly=True,
+        'id': fields.Integer(readOnly=False,
                             description='The unique id assigned internally by service'),
         'like': fields.Integer(readOnly=False, 
                             description='Number of likes of a product'),
-        'is_active': fields.Boolean(readOnly=True,
-                            description='The product is active or not')
+        'is_active': fields.Boolean(readOnly=False,
+                            description='The product is active or not'),
+        'creation_date': fields.DateTime(readOnly=False,
+                            description='Product creation date')
         
     }
 ) 
-
-# query string arguments
-product_args = reqparse.RequestParser()
-product_args.add_argument('name', type=str, required=False, help='List Products by name')
-product_args.add_argument('id', type=int, required=False, help='List Products by id')
-product_args.add_argument('minimum', type=int, required=False, help='Minimum Price of the product')
-product_args.add_argument('maximum', type=int, required=False, help='Maximum Price of the product')
-
 
 
 ######################################################################
@@ -102,25 +95,17 @@ class ProductCollection(Resource):
     # LIST ALL PRODUCTS
     #------------------------------------------------------------------
     @api.doc('list_products')
-    @api.expect(product_args, validate=True)
     @api.marshal_list_with(product_model)
     def get(self):
         """ Returns all of the Products """
         app.logger.info('Request to list Products...')
-        args = product_args.parse_args()
         product_name = request.args.get("name")
-        product_id = request.args.get("id")
         minimum_price = request.args.get("minimum")
         maximum_price = request.args.get("maximum")
-        app.logger.info(type(product_id))
+        
         products = []     
-        if product_id:
-            app.logger.info('Filtering by id: %s', product_id)
-            product = ProductService.find_product_by_id(product_id)
-            if not product:
-                abort(status.HTTP_404_NOT_FOUND, "Product with id '{}' was not found.".format(product_id))
-            return product, status.HTTP_200_OK
-        elif product_name:
+        
+        if product_name:
             app.logger.info('Filtering by name: %s', product_name)
             products = ProductService.find_product_by_name(product_name)
         elif minimum_price or maximum_price:
