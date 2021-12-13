@@ -71,14 +71,12 @@ Vagrant.configure(2) do |config|
     apt-get update
     apt-get install -y git tree wget vim jq python3-dev python3-pip python3-venv python3-selenium
     apt-get -y autoremove
-
     # Install Chromium Driver
     apt-get install -y chromium-driver
     
     # Create a Python3 Virtual Environment and Activate it in .profile
     sudo -H -u vagrant sh -c 'python3 -m venv ~/venv'
     sudo -H -u vagrant sh -c 'echo ". ~/venv/bin/activate" >> ~/.profile'
-
     # Install app dependencies
     sudo -H -u vagrant sh -c '. ~/venv/bin/activate && pip install -U pip && pip install wheel'
     sudo -H -u vagrant sh -c '. ~/venv/bin/activate && cd /vagrant && pip install -r requirements.txt'
@@ -123,7 +121,6 @@ Vagrant.configure(2) do |config|
     else
       echo "*** WARNING: IBM Cloud CLI does not suport your architecture :("; \
     fi
-
     echo "\n************************************"
     echo ""
     echo "If you have an IBM Cloud API key in ~/.bluemix/apikey.json"
