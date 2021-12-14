@@ -97,7 +97,13 @@ Scenario: Update a Product
 
 Scenario: Retreive a product
     When I visit the "Home Page"
-    And I set the "Id" to "1"
+    And I set the "Name" to "Flowers"
+    And I press the "Search" button
+    Then I should see "Flowers" in the "Name" field
+    And I should see "19.99" in the "Price" field
+    When I copy the "Id" field
+    And I press the "Clear" button
+    And I paste the "Id" field
     And I press the "Retrieve" button
     Then I should see "Flowers" in the "Name" field
     And I should see "Good Showpiece" in the "Description" field
@@ -106,7 +112,13 @@ Scenario: Retreive a product
 
 Scenario: Action endpoint for disabling a product
     When I visit the "Home Page"
-    And I set the "Id" to "1"
+    And I set the "Name" to "Flowers"
+    And I press the "Search" button
+    Then I should see "Flowers" in the "Name" field
+    And I should see "19.99" in the "Price" field
+    When I copy the "Id" field
+    And I press the "Clear" button
+    And I paste the "Id" field
     And I press the "Disable" button
     And I press the "Search" button
     Then I should see "false" in the results
