@@ -62,7 +62,7 @@ product_model = api.inherit(
                             description='Number of likes of a product'),
         'is_active': fields.Boolean(readOnly=False,
                             description='The product is active or not'),
-        'creation_date': fields.DateTime(readOnly=False,
+        'creation_date': fields.Date(readOnly=False,
                             description='Product creation date')
         
     }
@@ -265,11 +265,11 @@ class ProductResource(Resource):
         This endpoint will delete a Product based the product_id specified in the path
         """
         app.logger.info("Request to delete product...")
-        output = ProductService.delete_product(id)
-        if output is None:
-            abort(status.HTTP_404_NOT_FOUND, "Product with id '{}' was not found.".format(id))
+        product = ProductService.find_product_by_id(id)
         response_code = status.HTTP_204_NO_CONTENT
-        app.logger.info('Product with id [%s] was deleted', id)
+        if product:
+            ProductService.delete_product(id)           
+            app.logger.info('Product with id [%s] was deleted', id)
         return '', response_code
 
 
@@ -338,13 +338,15 @@ class ProductDisable(Resource):
         This endpoint disables the product
         """
         app.logger.info("Request to disable the product...")
-        product = ProductModel.find_by_id(id)
-        if product:
+        product = ProductService.find_product_by_id(id)
+        if not product:
+            abort(status.HTTP_404_NOT_FOUND, "Product with id '{}' was not found.".format(id))
+        else:
             output = ProductService.disable_product(id)
             response_code = status.HTTP_200_OK
             return output, response_code  
-        else:
-            abort(status.HTTP_404_NOT_FOUND, "Product with id '{}' was not found.".format(id))
+
+
 
 
 ######################################################################

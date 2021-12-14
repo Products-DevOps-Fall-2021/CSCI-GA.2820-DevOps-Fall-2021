@@ -376,7 +376,7 @@ class TestProductServer(unittest.TestCase):
             content_type=CONTENT_TYPE_JSON,
             
         )
-        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
     
     def test_increament_like_product(self):
         """increase the likes of an existing Product"""
