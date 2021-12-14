@@ -120,6 +120,5 @@ Scenario: Action endpoint for disabling a product
     And I press the "Clear" button
     And I paste the "Id" field
     And I press the "Disable" button
-    And I press the "Search" button
-    Then I should see "false" in the results
+    Then I should see the message "Product has been Disabled!"
 
