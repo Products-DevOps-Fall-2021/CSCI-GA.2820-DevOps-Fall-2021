@@ -15,17 +15,13 @@ from flask_restx import Api, Resource, fields, reqparse, inputs, apidoc
 import service.models as models
 import sys
 
-
-######################################################################
-# Configure the Root route before OpenAPI
-######################################################################
+#root Home page
 @app.route("/")
 def index():
     # return make_response(jsonify(name='Products REST API Service', version='1.0', url = url_for('list_all_products', _external=True)), status.HTTP_200_OK)
     root_dir = os.path.dirname(os.getcwd())
     print("*"*100, os.path.join(root_dir, 'service', 'static'))
     return render_template("index.html")
-
 
 ######################################################################
 # Configure Swagger before initializing it
@@ -37,6 +33,7 @@ api = Api(app,
           default='products',
           doc='/apidocs'
          )
+
 
 
 # Define the model so that the docs reflect what can be sent
@@ -68,11 +65,14 @@ product_model = api.inherit(
     }
 ) 
 
+
+
 # query string arguments
 product_args = reqparse.RequestParser()
 product_args.add_argument('name', type=str, required=False, help='List Products by name')
 product_args.add_argument('minimum', type=float, required=False, help='Minimum Price of the product')
 product_args.add_argument('maximum', type=float, required=False, help='Maximum Price of the product')
+
 
 ######################################################################
 # Special Error Handlers
@@ -136,6 +136,7 @@ class ProductCollection(Resource):
         results = [product for product in products]
         return results, status.HTTP_200_OK
 
+
     #------------------------------------------------------------------
     # ADD A NEW PRODUCT  
     #------------------------------------------------------------------
@@ -179,7 +180,6 @@ class ProductCollection(Resource):
             abort(status.HTTP_400_BAD_REQUEST, 
             "Provide name, price and description to add a new product.")
         
-
 
 ######################################################################
 #  PATH: /products/{id}
@@ -251,9 +251,9 @@ class ProductResource(Resource):
             ProductModel.save_to_db(product)
             return product, status.HTTP_200_OK
         else:
-            abort(status.HTTP_404_NOT_FOUND, "Product with id '{}' was not found.".format(id))
+            abort(status.HTTP_404_NOT_FOUND, "Product with id '{}' was not found.".format(id))       
 
-        
+
     #------------------------------------------------------------------
     # DELETE A PRODUCT
     #------------------------------------------------------------------
