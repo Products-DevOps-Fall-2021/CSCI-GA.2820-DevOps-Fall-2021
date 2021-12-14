@@ -240,7 +240,6 @@ $(function () {
         var ajax = $.ajax({
             type: "GET",
             url: "/products?" + queryString,
-            contentType: "application/json",
             data: ''
         })
 
