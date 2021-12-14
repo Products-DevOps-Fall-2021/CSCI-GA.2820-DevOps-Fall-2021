@@ -15,6 +15,9 @@ git clone https://github.com/products-devops-fall-21/products.git
 
 cd products     
 
+#to set up the environment variables
+cp dot-env .env
+
 #bring up the vm
 vagrant up 
 
@@ -23,11 +26,12 @@ vagrant ssh
 
 cd /vagrant
 
-python run.py
+honcho start
+
 
 [---------------------------------------------------------
-    To display the logs use the following command instead:
-    honcho start
+    Can also use to run same step:
+    python run.py
 ---------------------------------------------------------]
 #At this point the website will be live
 
@@ -40,7 +44,7 @@ vagrant halt
 
 
 
-search [127.0.0.1:5000](http://127.0.0.1:5000/) on browser to access the website and find the URL for accessing '/products' page.
+search [0.0.0.0:8080](http://0.0.0.0:8080) on browser to access the website and find the URL for accessing '/products' page.
 
 ### The Database for products has following columns:
 | Column | Type | Description
@@ -61,6 +65,7 @@ search [127.0.0.1:5000](http://127.0.0.1:5000/) on browser to access the website
 |              /products              |   **GET**   |              Returns a list all of the products              | HTTP_200_OK |
 |           /products/{id}            |   **GET**   |             Returns the product with a given id in JSON format             | HTTP_200_OK |
 |              /products?minimum={min_price}&maximum={max_price}              |   **GET**   |              Returns a list all of the products whose price lay within minimum and maximum range             | HTTP_200_OK |
+|              /products?name={name}             |   **GET**   |              Returns a list all of the products whose name matches the given name             | HTTP_200_OK |
 |              /products              |  **POST**   | creates a new product with ID and creation date auto assigned by the Database and adds it to the products list | HTTP_201_CREATED |
 |           /products/{id}            |   **PUT**   | updates the product with given id with the credentials specified in the request |  HTTP_200_OK |
 |              /products/{id}/disable              |   **PUT**   |              Disables status of product (sets is_active to false) & sends appropriate notification              | HTTP_200_OK |
@@ -70,6 +75,7 @@ search [127.0.0.1:5000](http://127.0.0.1:5000/) on browser to access the website
 |           /products/{id}            | **DELETE**  |           deletes a product record from the database           | HTTP_204_NO_CONTENT |
 
 ### Testing
+#### TDD
 Use the following commands to run the test cases:
 
 Mac: 
@@ -82,3 +88,22 @@ nosetests --exe
 ```
 
 As of now we are able to receive 95% test coverage.
+
+#### BDD
+Use the following command to run the behave tests:
+[After doing ```honcho start``` in one terminal, write this command in another terminal]-
+```
+behave
+```
+
+### Cloud URLs
+1. The URL of your service running on IBM Cloud in dev:
+https://nyu-product-service-fall2103.us-south.cf.appdomain.cloud
+2. The URL of your service running on IBM Cloud in prod:
+https://nyu-product-service-fall2103-production.us-south.cf.appdomain.cloud
+
+### Swagger
+API Documentation added and can be accessed using above URLs/apidocs
+
+###  Continuous Delivery Pipeline
+Setted up in IBM Cloud, but have to run pipeline manually. Need to start press 'play' button on Build stage to start running the pipeline. All 4 stages- Build, Deploy, Test and Prod working.
